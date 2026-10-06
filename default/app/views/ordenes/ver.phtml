@@ -1,0 +1,12 @@
+<h1> ORDEN </h1>
+<a href="http://localhost/kumbiaphp/ordenes">Regresar</a>
+<ul>
+    <li>Usuario ID: <?= $orden->usuario_id ?> </li> <!-- table data -->
+    <li>Estado de orden ID: <?= $orden->estado_orden_id ?> </li>
+    <li>Método de envío ID: <?= $orden->metodo_envio_id ?> </li>
+    <li>Folio: <?= $orden->folio ?> </li>
+    <li>Subtotal: $<?= number_format($orden->subtotal) ?></li>
+    <li>Costo de envío: $<?= number_format($orden->costo_envio) ?></li>
+    <li>TOTAL: $<?= number_format($orden->total) ?></li>
+    <li>Dirección de envío ID: <?= $orden->direccion_envio_snap ?> </li>
+</ul>

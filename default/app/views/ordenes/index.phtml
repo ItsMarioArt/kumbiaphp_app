@@ -1,0 +1,41 @@
+<h1>CATÁLOGO DE ORDENES :) </h1>
+
+
+<table class="table" id="table_ordenes" style="display: none">
+    <thead>
+    <tr><!-- table  row -->
+        <th></th>
+        <th>Usuario ID</th> <!-- table  head -->
+        <th>Estado de orden ID</th>
+        <th>Método de envío ID</th>
+        <th>Folio</th>
+        <th>Subtotal</th>
+        <th>Costo de envío</th>
+        <th>TOTAL</th>
+        <th>Dirección de envío SNAP</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($ordenes as $o): ?>
+        <tr>
+            <td> <a href="http://localhost/kumbiaphp/ordenes/ver/<?= $o->id ?>">Ver</a> </td>
+            <td> <?= $o->usuario_id ?> </td> <!-- table data -->
+            <td> <?= $o->estado_orden_id ?> </td>
+            <td> <?= $o->metodo_envio_id ?> </td>
+            <td> <?= $o->folio ?> </td>
+            <td> $<?= number_format($o->subtotal) ?></td>
+            <td> $<?= number_format($o->costo_envio) ?></td>
+            <td> $<?= number_format($o->total) ?></td>
+            <td> <?= $o->direccion_envio_snap ?> </td>
+
+        </tr>
+    <?php endforeach; ?>
+
+    </tbody>
+</table>
+
+<div id="myGrid" style="height: 500px; width: 100%;"></div>
+
+<script>
+    convertirTablaAAGGrid('table_ordenes', 'myGrid');
+</script>

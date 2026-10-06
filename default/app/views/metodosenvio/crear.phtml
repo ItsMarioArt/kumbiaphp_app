@@ -1,0 +1,21 @@
+<h1> Agregar MÉTODO DE ENVÍO </h1>
+
+<?php View::content(); ?>
+
+
+<form method="post">
+    <label>Nombre:</label>
+    <input type="text"
+           name="metodos_envio[nombre]">
+
+    <label>Costo:</label>
+    <input type="number"
+           step="0.01"
+           name="metodos_envio[costo]">
+
+    <label>Tiempo de entrega:</label>
+    <input type="text"
+           name="metodos_envio[tiempo_entrega]">
+
+    <button type="submit">Crear</button>
+</form>

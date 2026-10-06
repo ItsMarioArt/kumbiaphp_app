@@ -1,0 +1,24 @@
+<h1> Editar: <?= $metodo_envio->nombre ?> </h1>
+
+<?php View::content(); ?>
+
+<a href="http://localhost/kumbiaphp/metodosenvio/ver/<?= $metodo_envio->id ?>">Regresar</a>
+<form method="post">
+    <label>Nombre:</label>
+    <input type="text"
+           name="metodos_envio[nombre]"
+           value="<?= $metodo_envio->nombre ?>">
+
+    <label>Costo:</label>
+    <input type="number"
+           name="metodos_envio[costo]"
+           value="<?= $metodo_envio->costo ?>">
+
+    <label>Tiempo de entrega:</label>
+    <input type="text"
+           name="metodos_envio[tiempo_entrega]"
+           value="<?= $metodo_envio->tiempo_entrega ?>">
+
+    <button type="submit">Actualizar</button>
+</form>
+

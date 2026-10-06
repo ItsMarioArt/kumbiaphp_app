@@ -1,0 +1,28 @@
+<h1>CATÁLOGO DE CATEGORIAS :) </h1>
+
+<table class="table" id="table_categorias" style="display: none">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Nombre</th>
+        <th>Slug</th>
+        <th>Descripción</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($categorias as $c): ?>
+        <tr>
+            <td> <a href="http://localhost/kumbiaphp/categorias/ver/<?= $c->id ?>">Ver</a> </td>
+            <td> <?= $c->nombre ?> </td>
+            <td> <?= $c->slug ?> </td>
+            <td> <?= $c->descripcion ?> </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div id="myGrid" style="height: 500px; width: 100%;"></div>
+
+<script>
+    convertirTablaAAGGrid('table_categorias', 'myGrid');
+</script>

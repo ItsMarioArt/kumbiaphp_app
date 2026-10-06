@@ -1,0 +1,32 @@
+<h1>CATÁLOGO DE USUARIOS :) </h1>
+
+
+<table class="table" id="table_usuarios" style="display: none">
+    <thead>
+    <tr><!-- table  row -->
+        <th></th>
+        <th>Rol ID</th> <!-- table  head -->
+        <th>E-mail</th>
+        <th>Password</th>
+        <th>Activo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($usuarios as $u): ?>
+        <tr>
+            <td> <a href="http://localhost/kumbiaphp/usuarios/ver/<?= $u->id ?>">Ver</a> </td>
+            <td> <?= $u->rol_id ?> </td> <!-- table data -->
+            <td> <?= $u->email ?> </td>
+            <td> <?= $u->password ?> </td>
+            <td> <?= $u->activo ?> </td>
+        </tr>
+    <?php endforeach; ?>
+
+    </tbody>
+</table>
+
+<div id="myGrid" style="height: 500px; width: 100%;"></div>
+
+<script>
+    convertirTablaAAGGrid('table_usuarios', 'myGrid');
+</script>

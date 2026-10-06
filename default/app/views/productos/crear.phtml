@@ -1,0 +1,21 @@
+<h1> Crear PRODUCTO </h1>
+
+<?php View::content(); ?>
+
+
+<form method="post">
+    <label>Nombre:</label>
+    <input type="text"
+           name="producto[nombre]">
+
+    <label>Stock:</label>
+    <input type="number"
+           name="producto[stock]">
+
+    <label>Precio:</label>
+    <input type="number"
+           step="0.01"
+           name="producto[precio]">
+
+    <button type="submit">Crear</button>
+</form>

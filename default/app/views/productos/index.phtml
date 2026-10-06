@@ -1,0 +1,33 @@
+<h1>CATÁLOGO DE PRODUCTOS</h1>
+
+
+<table class="table" id="table_productos" style="display: none">
+    <thead>
+    <tr><!-- table  row -->
+        <th></th>
+        <th>Producto</th> <!-- table  head -->
+        <th>Descripcion</th>
+        <th>Precio</th>
+        <th>Stock</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($productos as $p): ?>
+        <tr>
+            <td><a href="http://localhost/kumbiaphp/productos/ver/<?= $p->id ?>">Ver</a></td>
+            <td> <?= $p->nombre ?> </td> <!-- table data -->
+            <td> <?= $p->descripcion_corta ?> </td>
+            <td> $<?= number_format($p->precio) ?></td>
+            <td> <?= $p->stock ?></td>
+        </tr>
+    <?php endforeach; ?>
+
+    </tbody>
+</table>
+
+
+<div id="myGrid" style="height: 500px; width: 100%;"></div>
+
+<script>
+    convertirTablaAAGGrid('table_productos', 'myGrid');
+</script>

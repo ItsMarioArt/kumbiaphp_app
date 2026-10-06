@@ -1,0 +1,38 @@
+<h1>CATÁLOGO DE CLIENTES :) </h1>
+
+<table class="table" id="table_clientes" style="display: none">
+    <thead>
+    <tr><!-- table  row -->
+        <th></th>
+        <th>Nombre</th> <!-- table  head -->
+        <th>Empresa</th>
+        <th>E-mail</th>
+        <th>Teléfono</th>
+        <th>Ciudad</th>
+        <th>País</th>
+        <th>Límite de crédito</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($clientes as $c): ?>
+        <tr>
+            <td> <a href="http://localhost/kumbiaphp/clientes/ver/<?= $c->id ?>">Ver</a> </td>
+            <td> <?= $c->nombre ?> </td> <!-- table data -->
+            <td> <?= $c->empresa ?> </td>
+            <td> <?= $c->email ?></td>
+            <td> <?= $c->telefono ?></td>
+            <td> <?= $c->ciudad ?></td>
+            <td> <?= $c->pais_id ?></td>
+            <td><?= number_format($c->limite_credito, 2, '.', ',') ?></td>
+
+        </tr>
+    <?php endforeach; ?>
+
+    </tbody>
+</table>
+
+<div id="myGrid" style="height: 500px; width: 100%;"></div>
+
+<script>
+    convertirTablaAAGGrid('table_clientes', 'myGrid');
+</script>

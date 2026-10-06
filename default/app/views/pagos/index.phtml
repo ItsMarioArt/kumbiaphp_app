@@ -1,0 +1,34 @@
+<h1>CATÁLOGO DE PAGOS :) </h1>
+
+
+<table class="table" id="table_pagos" style="display: none">
+    <thead>
+    <tr><!-- table  row -->
+        <th></th>
+        <th>Orden ID</th> <!-- table  head -->
+        <th>Método</th>
+        <th>Transacción ID</th>
+        <th>Monto</th>
+        <th>Estado</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($pagos as $p): ?>
+        <tr>
+            <td> <a href="http://localhost/kumbiaphp/pagos/ver/<?= $p->id ?>">Ver</a> </td>
+            <td> <?= $p->orden_id ?> </td> <!-- table data -->
+            <td> <?= $p->metodo_pago ?> </td>
+            <td> <?= $p->transaccion_id ?> </td>
+            <td> $<?= number_format($p->monto) ?></td>
+            <td> <?= $p->estado ?></td>
+        </tr>
+    <?php endforeach; ?>
+
+    </tbody>
+</table>
+
+<div id="myGrid" style="height: 500px; width: 100%;"></div>
+
+<script>
+    convertirTablaAAGGrid('table_pagos', 'myGrid');
+</script>

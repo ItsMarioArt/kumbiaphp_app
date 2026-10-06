@@ -1,0 +1,37 @@
+<h1>CATÁLOGO DE PAISES :) </h1>
+
+
+<table class="table" id="table_paises" style="display: none">
+    <thead>
+    <tr><!-- table  row -->
+        <th></th>
+
+        <th>Nombre</th> <!-- table  head -->
+        <th>Capital</th>
+        <th>Código ISO</th>
+        <th>Continente</th>
+        <th>Moneda</th>
+        <th>Población</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($paises as $p): ?>
+        <tr>
+            <td> <a href="http://localhost/kumbiaphp/paises/ver/<?= $p->id ?>">Ver</a> </td>
+            <td> <?= $p->nombre ?> </td> <!-- table data -->
+            <td> <?= $p->capital ?> </td>
+            <td> <?= $p->codigo_iso ?></td>
+            <td> <?= $p->continente ?></td>
+            <td> <?= $p->moneda ?></td>
+            <td><?= number_format($p->poblacion, 0, '.', ',') ?></td>
+        </tr>
+    <?php endforeach; ?>
+
+    </tbody>
+</table>
+
+<div id="myGrid" style="height: 500px; width: 100%;"></div>
+
+<script>
+    convertirTablaAAGGrid('table_paises', 'myGrid');
+</script>

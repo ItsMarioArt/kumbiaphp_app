@@ -1,0 +1,12 @@
+<h1> <?= $producto->nombre ?> </h1>
+<a href="<?= URL ?>productos">Regresar</a>
+<ul>
+    <li>Descripcion: <?= $producto->descripcion_corta ?> </li>
+    <li>Precio: $<?= $producto->precio ?> </li>
+    <li>Stock: <?= $producto->stock ?> </li>
+    <li>Categoria <?= $producto->categoria_id ?> </li>
+    <li>Marca ID: <?= $producto->marca_id ?> </li>
+    <li>Sku: <?= $producto->sku ?> </li>
+</ul>
+
+<a href=" <?= URL ?>productos/editar/<?= $producto->id ?>">✏️ EDITAR ✏️</a>

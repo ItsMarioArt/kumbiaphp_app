@@ -1,0 +1,28 @@
+<h1>CATÁLOGO DE MARCAS :) </h1>
+
+<table class="table" id="table_marcas" style="display: none">
+    <thead>
+    <tr><!-- table  row -->
+        <th></th>
+        <th>Nombre</th> <!-- table  head -->
+        <th>Slug</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($marcas as $m): ?>
+        <tr>
+            <td> <a href="http://localhost/kumbiaphp/marcas/ver/<?= $m->id ?>">Ver</a> </td>
+            <td> <?= $m->nombre ?> </td> <!-- table data -->
+            <td> <?= $m->slug ?> </td>
+        </tr>
+    <?php endforeach; ?>
+
+    </tbody>
+</table>
+
+<div id="myGrid" style="height: 500px; width: 100%;"></div>
+
+<script>
+    convertirTablaAAGGrid('table_marcas', 'myGrid');
+</script>
+

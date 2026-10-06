@@ -1,0 +1,10 @@
+<h1> <?= $cliente->empresa ?> </h1>
+<a href="http://localhost/kumbiaphp/clientes">Regresar</a>
+<ul>
+    <li>Empresa: <?= $cliente->empresa ?> </li>
+    <li>E-mail: <?= $cliente->email ?></li>
+    <li>Teléfono: <?= $cliente->telefono ?></li>
+    <li>Ciudad: <?= $cliente->ciudad ?></li>
+    <li>País ID: <?= $cliente->pais_id ?></li>
+    <li>Límite de crédito: <?= number_format($cliente->limite_credito, 2, '.', ',') ?></li>
+</ul>

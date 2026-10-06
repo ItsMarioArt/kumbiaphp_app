@@ -1,0 +1,72 @@
+<h1> Editar: <?= $producto->nombre ?> </h1>
+
+<?php View::content(); ?>
+
+<a href="http://localhost/kumbiaphp/productos/ver/<?= $producto->id ?>">Regresar</a>
+<form method="post">
+    <label>Nombre:</label>
+    <input type="text"
+           name="producto[nombre]"
+           value="<?= $producto->nombre ?>">
+
+    <label>Stock:</label>
+    <input type="number"
+           name="producto[stock]"
+           value="<?= $producto->stock ?>">
+
+    <label>Precio:</label>
+    <input type="number"
+           name="producto[precio]"
+           readonly
+           disabled
+           value="<?= $producto->precio ?>">
+
+    <label>Categoría:</label>
+    <select name="producto[categoria_id]" id="producto_categoria_id">
+        <?php foreach ((new Categorias()) -> get_activos() as $c): ?>
+        <option value="<?= $c->id ?>"> <?= $c->nombre ?></option>
+        <?php endforeach; ?>
+    </select>
+
+
+    <label>Marca:</label>
+    <select name="producto[marca_id]" id="producto_marca_id">
+        <?php foreach ((new Marcas())-> get_activos() as $m): ?>
+        <option value="<?= $m->id ?>"><?= $m->nombre ?></option>
+        <?php endforeach;?>
+
+    </select>
+
+
+    <br>
+    <button type="submit">Actualizar</button>
+</form>
+
+<script>
+    let marca = document.getElementById('producto_marca_id');
+    marca.value = <?= $producto->marca_id ?>;
+
+
+    let categoria = document.getElementById('producto_categoria_id');
+    categoria.value = <?= $producto->categoria_id ?>;
+
+
+    new TomSelect("#producto_marca_id",{
+        create: true,
+        sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+
+    new TomSelect("#producto_categoria_id",{
+        create: true,
+        sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+
+
+</script>
+
