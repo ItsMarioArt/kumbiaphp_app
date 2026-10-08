@@ -1,0 +1,30 @@
+<?php
+$title      = $title ?? 'Sin título';
+$subtitle   = $subtitle ?? '';
+// Formato: [['label' => 'Inicio', 'url' => URL], ['label' => 'Usuarios', 'url' => URL.'usuarios'], ['label' => 'Editar']]
+// El último elemento se marca como activo (sin url).
+$breadcrumb = $breadcrumb ?? [];
+$last = count($breadcrumb) - 1;
+?>
+<div class="page-header">
+  <div>
+    <h1 class="page-title"><?= htmlspecialchars($title) ?></h1>
+    <?php if ($subtitle !== ''): ?>
+      <p class="page-subtitle"><?= htmlspecialchars($subtitle) ?></p>
+    <?php endif; ?>
+  </div>
+
+  <?php if (!empty($breadcrumb)): ?>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <?php foreach ($breadcrumb as $i => $item): ?>
+          <?php if ($i === $last || empty($item['url'])): ?>
+            <li class="breadcrumb-item active text-main" aria-current="page"><?= htmlspecialchars($item['label']) ?></li>
+          <?php else: ?>
+            <li class="breadcrumb-item"><a href="<?= htmlspecialchars($item['url']) ?>" class="text-decoration-none text-muted-green"><?= htmlspecialchars($item['label']) ?></a></li>
+          <?php endif; ?>
+        <?php endforeach; ?>
+      </ol>
+    </nav>
+  <?php endif; ?>
+</div>

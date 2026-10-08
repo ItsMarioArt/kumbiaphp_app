@@ -1,0 +1,30 @@
+<?php
+$title       = $title ?? 'Sin título';
+$description = $description ?? 'Panel de administración';
+?>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><?= htmlspecialchars($title) ?></title>
+
+<!-- SEO -->
+<meta name="description" content="<?= htmlspecialchars($description) ?>">
+<meta name="author" content="Spark Admin Team">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="<?= URL ?>libs/sparkadmin/assets/images/favicon.ico">
+
+<!-- Librerías locales -->
+<link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/apexcharts/apexcharts.css">
+<link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/flatpickr/flatpickr.min.css">
+
+<!-- AG Grid -->
+<link rel="stylesheet" href="<?= URL ?>libs/ag-grid/ag-theme-alpine.min.css">
+<script src="<?= URL ?>libs/ag-grid/ag-grid-community.min.js"></script>
+
+<!-- Funciones propias -->
+<script src="<?= URL ?>javascript/funciones.js"></script>
+
+<!-- Estilos principales -->
+<link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/css/main.css">

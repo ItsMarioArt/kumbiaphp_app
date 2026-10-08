@@ -1,0 +1,23 @@
+<?php
+// Cada acción: [icono, texto, url]. Edita o genera desde tu controlador.
+$quickActions = $quickActions ?? [
+  ['bi-file-earmark-plus', 'Nueva factura',  '#'],
+  ['bi-person-plus',       'Nuevo usuario',  '#'],
+  ['bi-box-seam',          'Nuevo producto', '#'],
+];
+?>
+<div class="dropdown ms-2">
+  <button class="btn-quick-action dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+    id="quick-actions-dropdown">
+    <i class="bi bi-plus-lg"></i>
+    <span>Crear</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-quick-action" aria-labelledby="quick-actions-dropdown">
+    <li class="dropdown-header">Accesos rápidos</li>
+    <?php foreach ($quickActions as [$icon, $label, $url]): ?>
+      <li><a class="dropdown-item" href="<?= htmlspecialchars($url) ?>"><i class="bi <?= $icon ?>"></i> <?= htmlspecialchars($label) ?></a></li>
+    <?php endforeach; ?>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="<?= URL ?>configuracion"><i class="bi bi-gear"></i> Configuración</a></li>
+  </ul>
+</div>

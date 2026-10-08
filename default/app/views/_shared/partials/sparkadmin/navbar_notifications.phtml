@@ -1,0 +1,40 @@
+<?php
+// Formato: ['icon'=>'bi-wallet2','bg'=>'bg-success text-white','text'=>'Nueva venta: <strong>$150</strong>','time'=>'Hace 2 min','unread'=>true,'url'=>'#']
+// IMPORTANTE: 'text' se imprime como HTML; escapa lo que venga de usuarios antes de armarlo.
+// Reemplaza este arreglo por datos de tu base de datos.
+$notifications = $notifications ?? [
+  ['icon' => 'bi-wallet2',        'bg' => 'bg-success text-white', 'text' => 'Nueva venta: <strong>$150.00</strong>',       'time' => 'Hace 2 min',  'unread' => true,  'url' => '#'],
+  ['icon' => 'bi-person-plus-fill','bg' => 'bg-primary text-white', 'text' => 'Nuevo usuario: <strong>John Doe</strong>',    'time' => 'Hace 1 hora', 'unread' => true,  'url' => '#'],
+  ['icon' => 'bi-box-seam-fill',  'bg' => 'bg-warning text-dark',  'text' => 'Poco stock: <strong>Hoodie</strong>',          'time' => 'Hace 3 horas','unread' => false, 'url' => '#'],
+];
+$hasUnread = (bool) array_filter($notifications, fn($n) => !empty($n['unread']));
+?>
+<div class="dropdown">
+  <button class="navbar-action-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+    aria-expanded="false" id="btn-notifications" data-bs-auto-close="outside">
+    <i class="bi bi-bell"></i>
+    <?php if ($hasUnread): ?><span class="navbar-action-badge"></span><?php endif; ?>
+  </button>
+  <div class="dropdown-menu dropdown-menu-end dropdown-menu-notification p-0" aria-labelledby="btn-notifications">
+    <div class="notification-header">
+      <h6 class="notification-title">Notificaciones</h6>
+      <button class="btn-clear-all" type="button">Marcar todas como leídas</button>
+    </div>
+    <div class="notification-list">
+      <?php if (empty($notifications)): ?>
+        <p class="text-center text-muted p-3 mb-0">Sin notificaciones</p>
+      <?php endif; ?>
+      <?php foreach ($notifications as $n): ?>
+        <a href="<?= htmlspecialchars($n['url'] ?? '#') ?>" class="notification-item">
+          <div class="notification-icon <?= $n['bg'] ?>"><i class="bi <?= $n['icon'] ?>"></i></div>
+          <div class="notification-content">
+            <p class="notification-text"><?= $n['text'] ?></p>
+            <span class="notification-time"><?= htmlspecialchars($n['time']) ?></span>
+          </div>
+          <?php if (!empty($n['unread'])): ?><span class="notification-unread-dot"></span><?php endif; ?>
+        </a>
+      <?php endforeach; ?>
+    </div>
+    <a href="<?= URL ?>notificaciones" class="notification-footer">Ver todas las notificaciones</a>
+  </div>
+</div>

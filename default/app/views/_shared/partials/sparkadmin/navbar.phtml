@@ -1,0 +1,33 @@
+<header class="navbar-custom">
+  <div class="navbar-left">
+    <!-- Toggle sidebar (escritorio) -->
+    <button class="btn-desktop-toggle d-none d-xl-flex align-items-center justify-content-center me-3"
+      id="desktop-sidebar-toggle" aria-label="Minimizar menú lateral">
+      <i class="bi bi-chevron-bar-left"></i>
+    </button>
+    <!-- Toggle sidebar (móvil) -->
+    <button class="sidebar-toggle-btn me-2" id="sidebar-toggle" aria-label="Mostrar menú">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <?php View::partial('sparkadmin/navbar_quick_actions') ?>
+  </div>
+
+  <!-- Buscador -->
+  <div class="navbar-search-wrapper">
+    <input type="text" class="navbar-search-input" placeholder="Buscar..." id="main-search">
+    <button class="navbar-search-btn" aria-label="Buscar">
+      <i class="bi bi-search"></i>
+    </button>
+  </div>
+
+  <!-- Acciones derecha -->
+  <div class="navbar-actions">
+    <button class="navbar-action-btn me-1" aria-label="Pantalla completa" id="btn-fullscreen">
+      <i class="bi bi-arrows-fullscreen"></i>
+    </button>
+
+    <?php View::partial('sparkadmin/navbar_notifications') ?>
+    <?php View::partial('sparkadmin/navbar_profile') ?>
+  </div>
+</header>

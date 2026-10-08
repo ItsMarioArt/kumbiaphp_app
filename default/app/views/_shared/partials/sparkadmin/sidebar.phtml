@@ -1,0 +1,27 @@
+<?php
+// Cambia estas claves según cómo guardes el usuario en sesión
+$userName  = $_SESSION['usuario']['nombre'] ?? 'Administrator';
+$userEmail = $_SESSION['usuario']['email']  ?? 'admin@email.com';
+$userImg   = $_SESSION['usuario']['avatar'] ?? URL . 'libs/sparkadmin/assets/images/avatar.png';
+?>
+<div class="sidebar-wrapper" id="sidebar">
+
+  <!-- Marca -->
+  <a href="<?= URL ?>" class="sidebar-brand">
+    <i class="bi bi-asterisk"></i>
+    <span>Spark Admin</span>
+  </a>
+
+  <!-- Menú -->
+  <?php View::partial('sparkadmin/menu') ?>
+
+  <!-- Tarjeta de perfil -->
+  <div class="sidebar-profile">
+    <img src="<?= htmlspecialchars($userImg) ?>" alt="<?= htmlspecialchars($userName) ?>" class="sidebar-profile-img"
+      onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop'">
+    <div class="sidebar-profile-info">
+      <div class="sidebar-profile-name"><?= htmlspecialchars($userName) ?></div>
+      <div class="sidebar-profile-email"><?= htmlspecialchars($userEmail) ?></div>
+    </div>
+  </div>
+</div>

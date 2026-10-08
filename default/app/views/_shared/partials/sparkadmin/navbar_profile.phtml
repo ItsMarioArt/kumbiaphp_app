@@ -1,0 +1,20 @@
+<?php
+$userName = $_SESSION['usuario']['nombre'] ?? 'Administrator';
+$userImg  = $_SESSION['usuario']['avatar'] ?? URL . 'libs/sparkadmin/assets/images/avatar.png';
+?>
+<div class="dropdown ms-2">
+  <button class="navbar-profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+    aria-expanded="false" id="profile-dropdown">
+    <img src="<?= htmlspecialchars($userImg) ?>" alt="Perfil" class="navbar-profile-img">
+    <span class="navbar-profile-name d-none d-md-inline"><?= htmlspecialchars($userName) ?></span>
+    <i class="bi bi-chevron-down navbar-profile-caret"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile" aria-labelledby="profile-dropdown">
+    <li class="dropdown-header">¡Bienvenido!</li>
+    <li><a class="dropdown-item" href="<?= URL ?>cuenta"><i class="bi bi-person"></i> Mi cuenta</a></li>
+    <li><a class="dropdown-item" href="<?= URL ?>configuracion"><i class="bi bi-gear"></i> Configuración</a></li>
+    <li><a class="dropdown-item" href="<?= URL ?>bloqueo"><i class="bi bi-lock"></i> Bloquear pantalla</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item text-danger" href="<?= URL ?>login/salir"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
+  </ul>
+</div>
