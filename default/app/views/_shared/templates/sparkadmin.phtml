@@ -54,12 +54,12 @@ $tituloPagina = htmlspecialchars(!empty($title) ? $title : ($secciones[$controla
        ========================================== -->
 <div class="sidebar-wrapper" id="sidebar">
     <!-- Marca / Logo (coloca tu logo en public/img/logo.png; si no existe se muestra un disco de vinilo) -->
-    <a href="<?= URL ?>" class="sidebar-brand">
+    <a href="<?= URL ?>" class="sidebar-brand" aria-label="Cassell's Music - Inicio"
+       style="justify-content:center;padding-left:0;">
         <img src="<?= URL ?>img/logo.png" alt="Logo de Cassell's Music" class="sidebar-brand-logo"
-             style="height:32px;width:auto;"
+             style="display:block;width:100%;max-width:240px;height:auto;max-height:150px;object-fit:contain;"
              onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';">
-        <i class="bi bi-vinyl-fill" style="display:none;"></i>
-        <span style="white-space:nowrap;">Cassell's Music</span>
+        <i class="bi bi-vinyl-fill" style="display:none;font-size:3rem;"></i>
     </a>
 
     <!-- Menú de navegación -->
