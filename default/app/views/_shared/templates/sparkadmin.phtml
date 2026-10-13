@@ -1,36 +1,255 @@
+<?php
+// Controlador actual y nombre legible de la sección (para el título y las migas de pan)
+$controladorActual = Router::get('controller');
+$secciones = [
+        'index'        => 'Inicio',
+        'productos'    => 'Productos',
+        'categorias'   => 'Categorías',
+        'marcas'       => 'Marcas',
+        'clientes'     => 'Clientes',
+        'ordenes'      => 'Órdenes',
+        'pagos'        => 'Pagos',
+        'metodosenvio' => 'Métodos de envío',
+        'usuarios'     => 'Usuarios',
+        'paises'       => 'Países',
+        'acerca_de'    => 'Acerca de',
+];
+// Si el controlador definió $this->title se usa ese; si no, el nombre de la sección
+$tituloPagina = htmlspecialchars(!empty($title) ? $title : ($secciones[$controladorActual] ?? "Cassell's Music"));
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <?php View::partial('sparkadmin/head', false, [
-            'title'       => $title ?? 'Mi Sistema',
-            'description' => $description ?? 'Panel de administración'
-    ]) ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $tituloPagina ?> | Cassell's Music</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Cassell's Music - Panel de administración de discos y vinilos">
+    <meta name="author" content="Mario Alberto Arteaga Argueta">
+
+    <!-- Favicon (coloca tu archivo en public/img/favicon.ico) -->
+    <link rel="icon" type="image/x-icon" href="<?= URL ?>img/favicon.ico">
+
+    <!-- Local Third-Party Libraries (100% Offline Compatible) -->
+    <link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/apexcharts/apexcharts.css">
+    <link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/flatpickr/flatpickr.min.css">
+
+    <link rel="stylesheet" href="<?= URL ?>libs/ag-grid/ag-theme-alpine.min.css">
+    <script src="<?= URL ?>libs/ag-grid/ag-grid-community.min.js"></script>
+
+    <script src="<?= URL ?>javascript/funciones.js"></script>
+
+    <!-- Main Design System & Custom Stylesheet -->
+    <link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/css/main.css">
 </head>
 
 <body>
 
-<?php View::partial('sparkadmin/sidebar') ?>
+<!-- ==========================================
+       INICIO: Barra lateral
+       ========================================== -->
+<div class="sidebar-wrapper" id="sidebar">
+    <!-- Marca / Logo (coloca tu logo en public/img/logo.png; si no existe se muestra un disco de vinilo) -->
+    <a href="<?= URL ?>" class="sidebar-brand">
+        <img src="<?= URL ?>img/logo.png" alt="Logo de Cassell's Music" class="sidebar-brand-logo"
+             style="height:32px;width:auto;"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';">
+        <i class="bi bi-vinyl-fill" style="display:none;"></i>
+        <span style="white-space:nowrap;">Cassell's Music</span>
+    </a>
 
+    <!-- Menú de navegación -->
+    <?php View::partial('sparkadmin/menu') ?>
+
+    <!-- Tarjeta de perfil (parte inferior de la barra lateral) -->
+    <div class="sidebar-profile">
+        <img src="<?= URL ?>img/perfil.jpg" alt="Mario A." class="sidebar-profile-img"
+             onerror="this.onerror=null;this.src='<?= URL ?>libs/sparkadmin/assets/images/avatar.png'">
+        <div class="sidebar-profile-info">
+            <div class="sidebar-profile-name">Mario A.</div>
+            <div class="sidebar-profile-email">l23590231@sjuanrio.tecnm.mx</div>
+        </div>
+    </div>
+</div>
+<!-- ==========================================
+       FIN: Barra lateral
+       ========================================== -->
+
+
+<!-- ==========================================
+       INICIO: Área de contenido principal
+       ========================================== -->
 <div class="main-wrapper">
 
-    <?php View::partial('sparkadmin/navbar') ?>
+    <!-- INICIO: Barra superior -->
+    <header class="navbar-custom">
+        <div class="navbar-left">
+            <!-- Minimizar barra lateral (solo pantallas grandes) -->
+            <button class="btn-desktop-toggle d-none d-xl-flex align-items-center justify-content-center me-3"
+                    id="desktop-sidebar-toggle" aria-label="Minimizar barra lateral">
+                <i class="bi bi-chevron-bar-left"></i>
+            </button>
+            <!-- Mostrar/ocultar barra lateral (móvil) -->
+            <button class="sidebar-toggle-btn me-2" id="sidebar-toggle" aria-label="Mostrar u ocultar navegación">
+                <i class="bi bi-list"></i>
+            </button>
 
-    <?php View::partial('sparkadmin/page_header', false, [
-            'title'      => $title ?? 'Mi Sistema',
-            'subtitle'   => $subtitle ?? '',
-            'breadcrumb' => $breadcrumb ?? []
-    ]) ?>
+            <!-- Acciones rápidas -->
+            <div class="dropdown ms-2">
+                <button class="btn-quick-action dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                        id="quick-actions-dropdown">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>Crear</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-quick-action" aria-labelledby="quick-actions-dropdown">
+                    <li class="dropdown-header">Accesos rápidos</li>
+                    <li><a class="dropdown-item" href="<?= URL ?>productos/crear"><i class="bi bi-box-seam"></i> Nuevo producto</a></li>
+                    <li><a class="dropdown-item" href="<?= URL ?>metodosenvio/crear"><i class="bi bi-truck"></i> Nuevo método de envío</a></li>
+                </ul>
+            </div>
+        </div>
 
-    <div class="card p-4 border-light shadow-sm">
-        <?php View::content() ?>
+        <!-- Barra de búsqueda -->
+        <div class="navbar-search-wrapper">
+            <input type="text" class="navbar-search-input" placeholder="Buscar en Cassell's Music..." id="main-search">
+            <button class="navbar-search-btn" aria-label="Buscar">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+
+        <!-- Acciones de la derecha -->
+        <div class="navbar-actions">
+            <!-- Pantalla completa -->
+            <button class="navbar-action-btn me-1" aria-label="Pantalla completa" id="btn-fullscreen">
+                <i class="bi bi-arrows-fullscreen"></i>
+            </button>
+            <div class="dropdown">
+                <button class="navbar-action-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false" id="btn-notifications" data-bs-auto-close="outside" aria-label="Notificaciones">
+                    <i class="bi bi-bell"></i>
+                    <span class="navbar-action-badge"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-notification p-0"
+                     aria-labelledby="btn-notifications">
+                    <div class="notification-header">
+                        <h6 class="notification-title">Notificaciones</h6>
+                        <button class="btn-clear-all" type="button">Marcar todas como leídas</button>
+                    </div>
+                    <div class="notification-list">
+                        <!-- Notificación de venta (ejemplo) -->
+                        <a href="#" class="notification-item">
+                            <div class="notification-icon bg-success text-white">
+                                <i class="bi bi-wallet2"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p class="notification-text">Nueva venta recibida: <strong>$150.00</strong></p>
+                                <span class="notification-time">hace 2 min</span>
+                            </div>
+                            <span class="notification-unread-dot"></span>
+                        </a>
+                        <!-- Notificación de nuevo usuario (ejemplo) -->
+                        <a href="#" class="notification-item">
+                            <div class="notification-icon bg-primary text-white">
+                                <i class="bi bi-person-plus-fill"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p class="notification-text">Nuevo usuario registrado: <strong>Juan Pérez</strong></p>
+                                <span class="notification-time">hace 1 hora</span>
+                            </div>
+                            <span class="notification-unread-dot"></span>
+                        </a>
+                        <!-- Notificación de stock bajo (ejemplo) -->
+                        <a href="#" class="notification-item">
+                            <div class="notification-icon bg-warning text-dark">
+                                <i class="bi bi-box-seam-fill"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p class="notification-text">Stock bajo: <strong>Vinilo Abbey Road</strong></p>
+                                <span class="notification-time">hace 3 horas</span>
+                            </div>
+                        </a>
+                    </div>
+                    <a href="#" class="notification-footer">Ver todas las notificaciones</a>
+                </div>
+            </div>
+
+            <!-- Menú de perfil (foto) -->
+            <div class="dropdown ms-2">
+                <button class="navbar-profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false" id="profile-dropdown">
+                    <img src="<?= URL ?>img/perfil.jpg" alt="Foto de perfil" class="navbar-profile-img"
+                         onerror="this.onerror=null;this.src='<?= URL ?>libs/sparkadmin/assets/images/avatar.png'">
+                    <span class="navbar-profile-name d-none d-md-inline">Mario A.</span>
+                    <i class="bi bi-chevron-down navbar-profile-caret"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile" aria-labelledby="profile-dropdown">
+                    <li class="dropdown-header">¡Bienvenido!</li>
+                    <li><a class="dropdown-item" href="<?= URL ?>acerca_de"><i class="bi bi-info-circle"></i> Acerca de</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Mi cuenta</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-lock"></i> Bloquear pantalla</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right"></i>
+                            Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!-- FIN: Barra superior -->
+
+    <!-- INICIO: Encabezado de página -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title"><?= $tituloPagina ?> </h1>
+            <p class="page-subtitle">Panel de administración de Cassell's Music</p>
+        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <?php if ($controladorActual === 'index'): ?>
+                    <li class="breadcrumb-item active text-main" aria-current="page">Inicio</li>
+                <?php else: ?>
+                    <li class="breadcrumb-item"><a href="<?= URL ?>" class="text-decoration-none text-muted-green">Inicio</a></li>
+                    <li class="breadcrumb-item active text-main" aria-current="page"><?= $tituloPagina ?></li>
+                <?php endif; ?>
+            </ol>
+        </nav>
     </div>
+    <!-- FIN: Encabezado de página -->
 
+    <!-- INICIO: Contenido de la página -->
+    <div class="card p-4 border-light shadow-sm text-center">
+        <div>
+            <div class="mb-4 text-lime empty-state-icon">
+                <i class="bi bi-file-earmark-fill"></i>
+            </div>
+            <?php View::content() ?>
+        </div>
+    </div>
+    <!-- FIN: Contenido de la página -->
+
+
+    <!-- INICIO: Pie de página -->
     <?php View::partial('sparkadmin/footer') ?>
+    <!-- FIN: Pie de página -->
 
 </div>
+<!-- ==========================================
+       FIN: Área de contenido principal
+       ========================================== -->
 
-<?php View::partial('sparkadmin/scripts') ?>
+<!-- Scripts de librerías locales -->
+<script src="<?= URL ?>libs/sparkadmin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= URL ?>libs/sparkadmin/assets/libs/apexcharts/apexcharts.min.js"></script>
+<script src="<?= URL ?>libs/sparkadmin/assets/libs/flatpickr/flatpickr.min.js"></script>
+
+<!-- Interacciones locales del panel -->
+<script src="<?= URL ?>libs/sparkadmin/assets/js/dashboard.js"></script>
 </body>
 
 </html>

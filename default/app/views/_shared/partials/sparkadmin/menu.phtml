@@ -1,22 +1,46 @@
+<?php
+// Controlador actual, para marcar el enlace activo
+$actual = Router::get('controller');
+
+// Cada grupo: título => [ [controlador, ruta, texto, icono], ... ]
+$grupos = [
+  'Menú' => [
+    ['index', '', 'Inicio', 'bi-grid-fill'],
+  ],
+  'Catálogo' => [
+    ['productos',  'productos',  'Productos',  'bi-vinyl'],
+    ['categorias', 'categorias', 'Categorías', 'bi-tags'],
+    ['marcas',     'marcas',     'Marcas',     'bi-bookmarks'],
+  ],
+  'Ventas' => [
+    ['ordenes',      'ordenes',      'Órdenes',          'bi-receipt'],
+    ['pagos',        'pagos',        'Pagos',            'bi-credit-card'],
+    ['metodosenvio', 'metodosenvio', 'Métodos de envío', 'bi-truck'],
+  ],
+  'Administración' => [
+    ['clientes', 'clientes', 'Clientes', 'bi-people'],
+    ['usuarios', 'usuarios', 'Usuarios', 'bi-person-badge'],
+    ['paises',   'paises',   'Países',   'bi-globe-americas'],
+  ],
+];
+?>
 <div class="flex-grow-1 overflow-y-auto">
-    <!-- Group: Menu -->
+    <?php foreach ($grupos as $titulo => $enlaces): ?>
+    <!-- Grupo: <?= $titulo ?> -->
     <div class="sidebar-menu-section">
-        <div class="sidebar-menu-title">Menu</div>
+        <div class="sidebar-menu-title"><?= $titulo ?></div>
         <ul class="sidebar-menu-list">
+            <?php foreach ($enlaces as [$controlador, $ruta, $texto, $icono]): ?>
             <li class="sidebar-menu-item">
-                <a href="index.html" class="sidebar-menu-link" id="menu-overview" title="Overview">
-                    <i class="bi bi-box2-heart"></i>
-                    <span>Dashboard</span>
+                <a href="<?= URL . $ruta ?>"
+                   class="sidebar-menu-link<?= $actual === $controlador ? ' active' : '' ?>"
+                   id="menu-<?= $controlador ?>" title="<?= $texto ?>">
+                    <i class="bi <?= $icono ?>"></i>
+                    <span><?= $texto ?></span>
                 </a>
             </li>
-        </ul>
-        <ul class="sidebar-menu-list">
-            <li class="sidebar-menu-item">
-                <a href="index.html" class="sidebar-menu-link" id="menu-overview" title="Overview">
-                    <i class="bi bi-lightning"></i>
-                    <span>Dashboard 2.0</span>
-                </a>
-            </li>
+            <?php endforeach; ?>
         </ul>
     </div>
+    <?php endforeach; ?>
 </div>

@@ -1,11 +1,20 @@
 <footer class="footer-custom">
     <div class="footer-left">
         <span class="footer-logo">
-          <i class="bi bi-asterisk"></i> Spark Admin
+          <!-- Usa el mismo logo que la barra lateral (public/img/logo.png); si no existe, muestra un disco de vinilo -->
+          <img src="<?= URL ?>img/logo.png" alt="Logo de Cassell's Music" style="height:18px;width:auto;"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';">
+          <i class="bi bi-vinyl-fill" style="display:none;"></i> Cassell's Music
         </span>
         <span class="footer-separator">|</span>
-        <span class="footer-copy">&copy; 2026 Made with <i class="bi bi-heart-fill text-danger footer-heart"></i> by<a
-                href="https://sparkadminpro.gumroad.com/" target="_blank">Spark Admin</a>• Distributed by <a
-                href="https://www.themewagon.com/" target="_blank">ThemeWagon</a> </span>
+        <span class="footer-copy">&copy; 2026 Hecho con <i class="bi bi-heart-fill text-danger footer-heart"></i> por Mario A. Arteaga • Plantilla basada en <a
+                href="https://sparkadminpro.gumroad.com/" target="_blank">Spark Admin</a>, distribuida por <a
+                href="https://www.themewagon.com/" target="_blank">ThemeWagon</a></span>
+    </div>
+    <div class="footer-right">
+        <ul class="footer-links">
+            <li><a href="<?= URL ?>" class="footer-link">Inicio</a></li>
+            <li><a href="<?= URL ?>acerca_de" class="footer-link">Acerca de</a></li>
+        </ul>
     </div>
 </footer>

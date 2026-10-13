@@ -1,3 +1,69 @@
+// Textos de ag-Grid en español
+const textosAgGridEs = {
+    // Estados generales
+    loadingOoo: 'Cargando...',
+    noRowsToShow: 'No hay registros para mostrar',
+
+    // Filtros
+    filterOoo: 'Filtrar...',
+    searchOoo: 'Buscar...',
+    applyFilter: 'Aplicar',
+    clearFilter: 'Limpiar',
+    resetFilter: 'Restablecer',
+    cancelFilter: 'Cancelar',
+    filterTitle: 'Filtro',
+    andCondition: 'Y',
+    orCondition: 'O',
+
+    // Operadores de texto
+    contains: 'Contiene',
+    notContains: 'No contiene',
+    equals: 'Igual a',
+    notEqual: 'Distinto de',
+    startsWith: 'Empieza con',
+    endsWith: 'Termina con',
+    blank: 'Vacío',
+    notBlank: 'No vacío',
+    blanks: '(Vacíos)',
+    noMatches: 'Sin coincidencias',
+
+    // Operadores numéricos y de fecha
+    greaterThan: 'Mayor que',
+    greaterThanOrEqual: 'Mayor o igual que',
+    lessThan: 'Menor que',
+    lessThanOrEqual: 'Menor o igual que',
+    inRange: 'Entre',
+    inRangeStart: 'Desde',
+    inRangeEnd: 'Hasta',
+
+    // Selección
+    selectAll: '(Seleccionar todo)',
+    selectAllSearchResults: '(Seleccionar todos los resultados)',
+
+    // Paginación
+    page: 'Página',
+    more: 'Más',
+    to: 'a',
+    of: 'de',
+    next: 'Siguiente',
+    last: 'Última',
+    first: 'Primera',
+    previous: 'Anterior',
+    nextPage: 'Página siguiente',
+    lastPage: 'Última página',
+    firstPage: 'Primera página',
+    previousPage: 'Página anterior',
+    pageSizeSelectorLabel: 'Tamaño de página:',
+
+    // Accesibilidad
+    ariaFilterColumn: 'Presiona CTRL + ENTER para abrir el filtro',
+    ariaFilterValue: 'Valor del filtro',
+    ariaFilterFromValue: 'Filtrar desde el valor',
+    ariaFilterToValue: 'Filtrar hasta el valor',
+    ariaFilterMenuOpen: 'Abrir menú de filtro',
+    ariaSearchFilterValues: 'Buscar valores del filtro'
+};
+
 function convertirTablaAAGGrid(idTabla, idGrid) {
     const filas = document.querySelectorAll(`#${idTabla} tbody tr`);
 
@@ -20,6 +86,7 @@ function convertirTablaAAGGrid(idTabla, idGrid) {
 
     agGrid.createGrid(document.getElementById(idGrid), {
         columnDefs: encabezados,
-        rowData: datos
+        rowData: datos,
+        localeText: textosAgGridEs
     });
 }

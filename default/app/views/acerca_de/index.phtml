@@ -1,0 +1,30 @@
+<div class="row align-items-center g-4 text-start">
+
+    <!-- Foto cuadrada (public/img/perfil.jpg) -->
+    <div class="col-12 col-md-4 col-lg-3 text-center">
+        <img src="<?= URL . $autor->foto ?>"
+             alt="Foto de <?= htmlspecialchars($autor->nombre) ?>"
+             class="rounded-4 shadow-sm"
+             style="width: 220px; height: 220px; aspect-ratio: 1 / 1; object-fit: cover;"
+             onerror="this.onerror=null;this.src='<?= URL ?>libs/sparkadmin/assets/images/avatar.png'">
+    </div>
+
+    <!-- Datos del autor -->
+    <div class="col-12 col-md-8 col-lg-9">
+        <h2 class="h3 mb-4"><?= htmlspecialchars($autor->nombre) ?></h2>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-4 col-lg-3">Número de control</dt>
+            <dd class="col-sm-8 col-lg-9"><?= htmlspecialchars($autor->numero_control) ?></dd>
+
+            <dt class="col-sm-4 col-lg-3">Carrera</dt>
+            <dd class="col-sm-8 col-lg-9"><?= htmlspecialchars($autor->carrera) ?></dd>
+
+            <dt class="col-sm-4 col-lg-3">Correo</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <a href="mailto:<?= htmlspecialchars($autor->correo) ?>"><?= htmlspecialchars($autor->correo) ?></a>
+            </dd>
+        </dl>
+    </div>
+
+</div>
