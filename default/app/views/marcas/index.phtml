@@ -11,7 +11,10 @@
     <tbody>
     <?php foreach ($marcas as $m): ?>
         <tr>
-            <td> <a href="http://localhost/kumbiaphp/marcas/ver/<?= $m->id ?>">Ver</a> </td>
+            <td><a href="http://localhost/kumbiaphp/marcas/ver/<?= $m->id ?>">Ver</a>
+                |
+                <?= Myhtml::enlace("marcas/ver/{$m->id}", "My Ver") ?>
+            </td>
             <td> <?= $m->nombre ?> </td> <!-- table data -->
             <td> <?= $m->slug ?> </td>
         </tr>
