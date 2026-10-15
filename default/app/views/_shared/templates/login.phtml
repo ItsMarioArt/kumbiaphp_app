@@ -1,65 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Sesión - Spark Admin</title>
+    <title>Iniciar sesión | Cassell's Music</title>
 
-    <!-- SEO Optimization -->
-    <meta name="description" content="Login Screen - Spark Admin Premium Bootstrap 5 Admin Dashboard Template">
-    <meta name="author" content="Spark Admin Team">
+    <!-- SEO -->
+    <meta name="description" content="Inicio de sesión - Panel de administración de Cassell's Music">
+    <meta name="author" content="Mario Alberto Arteaga Argueta">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?= URL ?>libs/sparkadmin/assets/images/favicon.ico">
+    <!-- Favicon (public/img/logo.ico) -->
+    <link rel="icon" type="image/x-icon" href="<?= URL ?>img/logo.ico">
 
-    <!-- Local Third-Party Libraries (100% Offline Compatible) -->
+    <!-- Librerías locales (funciona sin internet) -->
     <link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/libs/bootstrap-icons/bootstrap-icons.css">
 
-    <!-- Main Design System & Custom Stylesheet -->
+    <!-- Estilos principales -->
     <link rel="stylesheet" href="<?= URL ?>libs/sparkadmin/assets/css/main.css">
 </head>
 <body>
 
 <!-- ==========================================
-     START: Authentication Container & Login Card
+     INICIO: Contenedor de autenticación y tarjeta de login
      ========================================== -->
 <div class="login-wrapper">
-    <!-- Glowing background shapes for modern visual appearance -->
+    <!-- Figuras de fondo -->
     <div class="login-bg-shape login-bg-shape-1"></div>
     <div class="login-bg-shape login-bg-shape-2"></div>
 
-    <!-- Main centered login card -->
+    <!-- Tarjeta central de login -->
     <div class="login-card">
 
-        <!-- Brand Identity -->
-        <a href="index.html" class="login-brand text-decoration-none">
-            <i class="bi bi-asterisk"></i>
-            <span>Spark Admin</span>
+        <!-- Marca: solo el logo (public/img/logo.png). Si no existe, se muestra un disco de vinilo con el nombre -->
+        <a href="<?= URL ?>" class="login-brand text-decoration-none" aria-label="Cassell's Music - Inicio">
+            <span style="display:block;width:100%;max-width:300px;aspect-ratio:2.1/1;overflow:hidden;">
+                <img src="<?= URL ?>img/logo.png" alt="Logo de Cassell's Music"
+                     style="display:block;width:125%;max-width:none;height:auto;margin-left:-13.7%;margin-top:-25.8%;"
+                     onerror="this.parentNode.style.display='none';this.parentNode.nextElementSibling.style.display='flex';">
+            </span>
+            <span style="display:none;align-items:center;gap:.75rem;">
+                <i class="bi bi-vinyl-fill"></i>
+                <span>Cassell's Music</span>
+            </span>
         </a>
 
-        <p class="login-subtitle">Por favor incia sesión para ir a tu dahsboard</p>
+        <p class="login-subtitle">Inicia sesión para entrar al panel de administración</p>
 
-        <!-- Login Form -->
+        <!-- Formulario de login (views/login/index.phtml) -->
         <?php View::content(); ?>
 
-        <!-- Divider -->
+        <!-- Divisor -->
         <div class="login-divider"></div>
 
-
-        <!-- Footer Link -->
+        <!-- Enlace inferior -->
         <p class="login-footer-text">
             ¿No tienes una cuenta? <a href="#" id="link-register">Regístrate ahora</a>
         </p>
 
     </div>
 </div>
-<!-- END: Authentication Container -->
+<!-- FIN: Contenedor de autenticación -->
 
-<!-- Local Bootstrap bundle -->
+<!-- Bootstrap (bundle local) -->
 <script src="<?= URL ?>libs/sparkadmin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Custom Authentication interactions script -->
-<script src=<?= URL ?>"libs/sparkadmin/assets/js/auth.js"></script>
+<!-- Interacciones del login (mostrar/ocultar contraseña y validación) -->
+<script src="<?= URL ?>libs/sparkadmin/assets/js/auth.js"></script>
 </body>
 </html>

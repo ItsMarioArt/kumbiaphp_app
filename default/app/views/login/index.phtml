@@ -1,38 +1,40 @@
-<form action="index.html" method="GET" id="loginForm" class="needs-validation" novalidate>
+<form action="<?= URL ?>" method="POST" id="loginForm" class="needs-validation" novalidate>
 
-    <!-- Email Input Group -->
+    <!-- Correo electrónico -->
     <div class="login-form-group">
-        <label for="email" class="login-form-label">Email Address</label>
+        <label for="email" class="login-form-label">Correo electrónico</label>
         <div class="login-input-group">
             <i class="bi bi-envelope input-icon"></i>
-            <input type="email" id="email" class="login-input" placeholder="name@company.com" required>
+            <input type="email" id="email" name="email" class="login-input" placeholder="nombre@ejemplo.com"
+                   autocomplete="email" required>
         </div>
     </div>
 
-    <!-- Password Input Group -->
+    <!-- Contraseña -->
     <div class="login-form-group">
-        <label for="password" class="login-form-label">Password</label>
+        <label for="password" class="login-form-label">Contraseña</label>
         <div class="login-input-group">
             <i class="bi bi-shield-lock input-icon"></i>
-            <input type="password" id="password" class="login-input login-input-password" placeholder="••••••••" required>
-            <button type="button" class="password-toggle-btn" id="toggle-password" aria-label="Show password">
+            <input type="password" id="password" name="password" class="login-input login-input-password"
+                   placeholder="••••••••" autocomplete="current-password" required>
+            <button type="button" class="password-toggle-btn" id="toggle-password" aria-label="Mostrar contraseña">
                 <i class="bi bi-eye"></i>
             </button>
         </div>
     </div>
 
-    <!-- Options (Remember me & Forgot Password) -->
+    <!-- Opciones (recordarme y olvidé mi contraseña) -->
     <div class="login-options">
         <label class="custom-control-label">
-            <input type="checkbox" class="custom-checkbox-input" id="rememberMe">
-            <span>Remember Me</span>
+            <input type="checkbox" class="custom-checkbox-input" id="rememberMe" name="recordarme">
+            <span>Recordarme</span>
         </label>
-        <a href="#" class="forgot-password-link">Forgot Password?</a>
+        <a href="#" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
     </div>
 
-    <!-- Submit Button -->
+    <!-- Botón de envío -->
     <button type="submit" class="btn-login" id="btn-submit">
-        <span>Sign In to Dashboard</span>
+        <span>Entrar al panel</span>
         <i class="bi bi-arrow-right"></i>
     </button>
 
