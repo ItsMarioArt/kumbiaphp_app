@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Toggle input type attribute
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            
+
             // Toggle eye icon class & aria-label
             const icon = this.querySelector('i');
             if (type === 'text') {
@@ -33,13 +33,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     icon.classList.remove('bi-eye');
                     icon.classList.add('bi-eye-slash');
                 }
-                this.setAttribute('aria-label', 'Hide password');
+                this.setAttribute('aria-label', 'Ocultar contraseña');
             } else {
                 if (icon) {
                     icon.classList.remove('bi-eye-slash');
                     icon.classList.add('bi-eye');
                 }
-                this.setAttribute('aria-label', 'Show password');
+                this.setAttribute('aria-label', 'Mostrar contraseña');
             }
         });
     }
