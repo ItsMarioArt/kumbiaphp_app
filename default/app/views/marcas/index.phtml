@@ -11,7 +11,7 @@
     <tbody>
     <?php foreach ($marcas as $m): ?>
         <tr>
-            <td><a href="http://localhost/kumbiaphp/marcas/ver/<?= $m->id ?>">Ver</a>
+            <td><a href="<?= URL ?>marcas/ver/<?= $m->id ?>">Ver</a>
                 |
                 <?= Myhtml::enlace("marcas/ver/{$m->id}", "My Ver") ?>
             </td>

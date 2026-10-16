@@ -59,12 +59,12 @@ class Myhtml{
      * devuelve algo como:
      *   <a href="http://localhost/kumbiaphp/productos">🔗Listado de productos</a>
      */
-    public static function enlace($action, $text, $attrs = [])
+    public static function enlace($action,$text, $attrs = [])
     {
         $text = "" . $text;
-        $attrs = Myhtml::attrsdefaut($attrs, []);
+        $attrs = Myhtml::attrsdefaut($attrs, ["class" => ""]);
         $attrs = Tag::getAttrs($attrs);
-        return '<a href="' . URL . "$action\" $attrs>$text</a>";
+        return Html::link($action,$text, $attrs);
     }
 
     /*

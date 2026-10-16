@@ -14,9 +14,11 @@
     <tbody>
     <?php foreach ($productos as $p): ?>
         <tr>
-            <td><a href="http://localhost/kumbiaphp/productos/ver/<?= $p->id ?>">Ver</a>
+            <td><a href="<?= URL ?>productos/ver/<?= $p->id ?>">Ver</a>
                 |
-                <?= Myhtml::enlace("productos/ver/{$p->id}", "My Ver") ?>
+                <?= Html::link("productos/ver/{$p->id}","link Ver") ?>
+                |
+                <?= Myhtml::enlace("productos/ver/{$p->id}","My Ver") ?>
             </td>
             <td> <?= $p->nombre ?> </td> <!-- table data -->
             <td> <?= $p->descripcion_corta ?> </td>

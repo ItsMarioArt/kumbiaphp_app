@@ -68,8 +68,8 @@ class Myform
      */
     public static function btn_aceptar($text = "Aceptar", $attrs = [])
     {
-        $text = "✅ " . $text;
-        $attrs = Myform::attrsdefaut($attrs, ["class" => "btn btn-primary"]);
+        $text = " " . $text;
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "btn btn-success"]);
         return Form::submit($text, $attrs);
     }
 

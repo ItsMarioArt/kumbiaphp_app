@@ -12,7 +12,7 @@
     <tbody>
     <?php foreach ($categorias as $c): ?>
         <tr>
-            <td><a href="http://localhost/kumbiaphp/categorias/ver/<?= $c->id ?>">Ver</a>
+            <td><a href="<?= URL ?>categorias/ver/<?= $c->id ?>">Ver</a>
                 |
                 <?= Myhtml::enlace("categorias/ver/{$c->id}", "My Ver") ?>
             </td>
