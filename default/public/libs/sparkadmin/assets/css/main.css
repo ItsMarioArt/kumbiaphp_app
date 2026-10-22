@@ -3185,4 +3185,114 @@ span.flatpickr-weekday {
 }
 
 
+/* ---------------------------------------------------------------------
+   Formularios de edición (helper Myform) - diseño sobrio
+   Se activa con <form class="form-edicion">. Reutiliza los colores y
+   radios de la plantilla y no afecta nada fuera de ese formulario.
+--------------------------------------------------------------------- */
+.form-edicion {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: left;
+}
 
+.form-edicion label {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.form-edicion .form-control,
+.form-edicion .form-select {
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-main);
+    border: 1px solid rgba(11, 19, 15, 0.12);
+    border-radius: var(--radius-lg);
+    box-shadow: none;
+}
+
+.form-edicion .form-select {
+    padding-right: 2.25rem;
+}
+
+.form-edicion .form-control:focus,
+.form-edicion .form-select:focus {
+    border-color: var(--brand-forest-medium);
+    box-shadow: 0 0 0 3px rgba(74, 15, 15, 0.08);
+}
+
+.form-edicion .form-control:disabled,
+.form-edicion .form-control[readonly] {
+    background-color: #F8FAF9;
+    border-color: rgba(11, 19, 15, 0.06);
+    color: var(--text-muted-green);
+    cursor: not-allowed;
+}
+
+.form-edicion .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.form-edicion .form-actions .btn {
+    padding: 0.6rem 1.4rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border-radius: var(--radius-lg);
+}
+
+/* Myform::btn_aceptar() usa btn-success: dentro del formulario toma el color de la plantilla */
+.form-edicion .btn-success {
+    --bs-btn-bg: var(--brand-forest-medium);
+    --bs-btn-border-color: var(--brand-forest-medium);
+    --bs-btn-hover-bg: var(--brand-forest-dark);
+    --bs-btn-hover-border-color: var(--brand-forest-dark);
+    --bs-btn-active-bg: var(--brand-forest-dark);
+    --bs-btn-active-border-color: var(--brand-forest-dark);
+    --bs-btn-focus-shadow-rgb: 74, 15, 15;
+}
+
+/* ---------------------------------------------------------------------
+   Mensajes Flash (Flash::valid, Flash::error, ...) - sobrios
+   La plantilla no carga kumbia.css, que es donde estaban estos estilos.
+--------------------------------------------------------------------- */
+.flash {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: var(--radius-lg);
+}
+
+.flash.valid {
+    color: #1E5B38;
+    background-color: #E8F3EC;
+    border-color: #CFE5D8;
+}
+
+.flash.error {
+    color: #991B1B;
+    background-color: var(--sys-red-bg);
+    border-color: #FBCACA;
+}
+
+.flash.warning {
+    color: #9A4A0B;
+    background-color: var(--sys-orange-bg);
+    border-color: #FBD9B5;
+}
+
+.flash.info {
+    color: var(--text-main);
+    background-color: #F8FAF9;
+    border-color: var(--border-light);
+}

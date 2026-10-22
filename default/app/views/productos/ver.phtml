@@ -62,8 +62,9 @@ if ($producto->stock > 10) {
 
                 <!-- Acciones -->
                 <div class="d-grid gap-2 d-sm-flex mt-auto">
-                    <a href="<?= URL, "productos/editar/{$producto->id}" ?>" class="btn btn-warning btn-lg px-4">Editar ✏️</a>
-                    <a href="<?= URL ?>productos" class="btn btn-outline-secondary btn-lg px-4">Regresar</a>
+                    <?= Myhtml::btn_editar("productos/editar/{$producto->id}", "Editar", ["class" => "btn-lg px-4"]) ?>
+                    <?= Myhtml::btn_regresar("productos", "Regresar", ["class" => "btn-lg px-4"]) ?>
+                    <?= Myhtml::btn_eliminar("Eliminar", ["class" => "btn-lg px-4"]) ?>
                 </div>
 
             </div>

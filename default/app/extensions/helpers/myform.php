@@ -115,6 +115,82 @@ class Myform
         return $html . Form::input('text', $field, $attrs, $value);
     }
 
+    /**
+     * Campo numérico con su etiqueta <label>, misma estructura que text_label.
+     *
+     * @example Myform::number_label("Stock", "producto.stock")
+     * @example Myform::number_label("Precio", "producto.precio", ["readonly" => "readonly"])
+     *
+     * @param string      $label Texto de la etiqueta
+     * @param string      $field Nombre del campo
+     * @param array       $attrs Atributos adicionales del input
+     * @param string|null $value Valor del campo (null = tomarlo del modelo)
+     *
+     * @return string HTML del label + input
+     */
+    public static function number_label($label, $field, $attrs = [], $value = null)
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "form-control"]);
+        $html =  "<label>$label</label>";
+        return $html . Form::input('number', $field, $attrs, $value);
+    }
+
+    /**
+     * Lista desplegable (select) con su etiqueta <label>. Recibe el arreglo
+     * de registros (por ejemplo (new Categorias)->get_activos()) y deja
+     * seleccionado el valor que tenga el modelo en $field.
+     *
+     * @example Myform::select_label("Marca", "producto.marca_id", $marcas)
+     *
+     * @param string      $label Texto de la etiqueta
+     * @param string      $field Nombre del campo
+     * @param array       $data  Registros que llenan las opciones (usan "id" como valor)
+     * @param array       $attrs Atributos adicionales del select
+     * @param string|null $value Valor seleccionado (null = tomarlo del modelo)
+     * @param string      $show  Propiedad de cada registro que se muestra como texto
+     *
+     * @return string HTML del label + select
+     */
+    public static function select_label($label, $field, $data, $attrs = [], $value = null, $show = 'nombre')
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "form-select"]);
+        $html =  "<label>$label</label>";
+        return $html . Form::select($field, $data, $attrs, $value, '', 'id', $show);
+    }
+
+
+
+
+
+    public static function open($action = '', $method = 'post', $attrs = '')
+    {
+        return Form::open($action = '', $method = 'post', $attrs = '');
+    }
+    public static function close(){
+        return Form::close();
+    }
+
+
+    /**
+     * Área de texto con su etiqueta <label>, misma estructura que text_label.
+     *
+     * @example Myform::textarea_label("Descripción", "categoria.descripcion")
+     *
+     * @param string      $label Texto de la etiqueta
+     * @param string      $field Nombre del campo
+     * @param array       $attrs Atributos adicionales del textarea
+     * @param string|null $value Valor del campo (null = tomarlo del modelo)
+     *
+     * @return string HTML del label + textarea
+     */
+    public static function textarea_label($label, $field, $attrs = [], $value = null)
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "form-control"]);
+        $attrs += ["rows" => "4"];
+        $html =  "<label>$label</label>";
+        return $html . Form::textarea($field, $attrs, $value);
+    }
+
     /* Crear los metodos para
     Estructura del formulario
 1 open($action, $method, $attrs) — abre <form>

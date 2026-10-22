@@ -1,0 +1,24 @@
+<?php View::content(); ?>
+
+<?= Myform::open()?>
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Nombre", "categoria.nombre") ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Slug", "categoria.slug") ?>
+        </div>
+
+        <div class="col-12">
+            <?= Myform::textarea_label("Descripción", "categoria.descripcion") ?>
+        </div>
+    </div>
+    <?= Myform::close()?>
+
+    <hr>
+
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Actualizar") ?>
+        <?= Myhtml::btn_regresar("categorias/ver/{$categoria->id}") ?>
+    </div>
+<?= Myform::close()?>

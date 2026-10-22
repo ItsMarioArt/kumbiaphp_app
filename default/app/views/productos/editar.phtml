@@ -1,72 +1,37 @@
-<h1> Editar: <?= $producto->nombre ?> </h1>
+<?php
+// Opciones de los select (siguen siendo solo los registros activos)
+$categorias = (new Categorias())->get_activos();
+$marcas     = (new Marcas())->get_activos();
+?>
 
 <?php View::content(); ?>
 
-<a href="http://localhost/kumbiaphp/productos/ver/<?= $producto->id ?>">Regresar</a>
-<form method="post">
-    <label>Nombre:</label>
-    <input type="text"
-           name="producto[nombre]"
-           value="<?= $producto->nombre ?>">
+<?= Myform::open()?>
+    <div class="row g-3">
+        <div class="col-12">
+            <?= Myform::text_label("Nombre", "producto.nombre") ?>
+        </div>
 
-    <label>Stock:</label>
-    <input type="number"
-           name="producto[stock]"
-           value="<?= $producto->stock ?>">
+        <div class="col-12 col-md-6">
+            <?= Myform::select_label("Categoría", "producto.categoria_id", $categorias) ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::select_label("Marca", "producto.marca_id", $marcas) ?>
+        </div>
 
-    <label>Precio:</label>
-    <input type="number"
-           name="producto[precio]"
-           readonly
-           disabled
-           value="<?= $producto->precio ?>">
+        <div class="col-12 col-md-6">
+            <?= Myform::number_label("Stock", "producto.stock", [], (string) $producto->stock) ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::number_label("Precio", "producto.precio", ["readonly" => "readonly", "disabled" => "disabled"], (string) $producto->precio) ?>
+        </div>
+    </div>
 
-    <label>Categoría:</label>
-    <select name="producto[categoria_id]" id="producto_categoria_id">
-        <?php foreach ((new Categorias()) -> get_activos() as $c): ?>
-        <option value="<?= $c->id ?>"> <?= $c->nombre ?></option>
-        <?php endforeach; ?>
-    </select>
+    <hr>
 
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Actualizar") ?>
+        <?= Myhtml::btn_regresar("productos/ver/{$producto->id}") ?>
+    </div>
 
-    <label>Marca:</label>
-    <select name="producto[marca_id]" id="producto_marca_id">
-        <?php foreach ((new Marcas())-> get_activos() as $m): ?>
-        <option value="<?= $m->id ?>"><?= $m->nombre ?></option>
-        <?php endforeach;?>
-
-    </select>
-
-
-    <br>
-    <button type="submit">Actualizar</button>
-</form>
-
-<script>
-    let marca = document.getElementById('producto_marca_id');
-    marca.value = <?= $producto->marca_id ?>;
-
-
-    let categoria = document.getElementById('producto_categoria_id');
-    categoria.value = <?= $producto->categoria_id ?>;
-
-
-    new TomSelect("#producto_marca_id",{
-        create: true,
-        sortField: {
-            field: "text",
-            direction: "asc"
-        }
-    });
-
-    new TomSelect("#producto_categoria_id",{
-        create: true,
-        sortField: {
-            field: "text",
-            direction: "asc"
-        }
-    });
-
-
-</script>
-
+<?= Myform::close()?>

@@ -68,6 +68,48 @@ class Myhtml{
     }
 
     /*
+     * Boton "Editar": enlace interno con apariencia de boton
+     * (amarillo de Bootstrap por defecto).
+     *
+     * ejemplo:
+     *   Myhtml::btn_editar("productos/editar/1")
+     *   Myhtml::btn_editar("productos/editar/1", "Editar ✏️", ["class" => "btn-lg"])
+     */
+    public static function btn_editar($action, $text = "Editar ✏️", $attrs = [])
+    {
+        $attrs = Myhtml::attrsdefaut($attrs, ["class" => "btn btn-warning"]);
+        return Html::link($action, $text, Tag::getAttrs($attrs));
+    }
+
+    /*
+     * Boton "Regresar": enlace interno con apariencia de boton
+     * (gris con borde, discreto).
+     *
+     * ejemplo:
+     *   Myhtml::btn_regresar("productos")
+     *   Myhtml::btn_regresar("productos", "Volver", ["class" => "btn-lg"])
+     */
+    public static function btn_regresar($action, $text = "Regresar", $attrs = [])
+    {
+        $attrs = Myhtml::attrsdefaut($attrs, ["class" => "btn btn-outline-secondary"]);
+        return Html::link($action, $text, Tag::getAttrs($attrs));
+    }
+
+    /*
+     * Boton "Eliminar": por ahora solo diseno. Es un <button type="button">
+     * sin enlace ni formulario, asi que no ejecuta ninguna accion.
+     *
+     * ejemplo:
+     *   Myhtml::btn_eliminar()
+     *   Myhtml::btn_eliminar("Eliminar 🗑️", ["class" => "btn-lg"])
+     */
+    public static function btn_eliminar($text = "Eliminar 🗑️", $attrs = [])
+    {
+        $attrs = Myhtml::attrsdefaut($attrs, ["class" => "btn btn-outline-danger"]);
+        return '<button type="button" ' . Tag::getAttrs($attrs) . ">$text</button>";
+    }
+
+    /*
      * Diseno de funciones para
      * boton guardar
      * boton cancelar
