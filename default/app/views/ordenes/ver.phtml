@@ -1,5 +1,4 @@
 <h1> ORDEN </h1>
-<a href="http://localhost/kumbiaphp/ordenes">Regresar</a>
 <ul>
     <li>Usuario ID: <?= $orden->usuario_id ?> </li> <!-- table data -->
     <li>Estado de orden ID: <?= $orden->estado_orden_id ?> </li>
@@ -10,3 +9,5 @@
     <li>TOTAL: $<?= number_format($orden->total) ?></li>
     <li>Dirección de envío ID: <?= $orden->direccion_envio_snap ?> </li>
 </ul>
+
+<?= Myhtml::btn_acciones("ordenes", $orden->id) ?>

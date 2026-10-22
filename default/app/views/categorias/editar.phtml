@@ -1,6 +1,6 @@
 <?php View::content(); ?>
 
-<?= Myform::open()?>
+<?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
     <div class="row g-3">
         <div class="col-12 col-md-6">
             <?= Myform::text_label("Nombre", "categoria.nombre") ?>
@@ -13,12 +13,9 @@
             <?= Myform::textarea_label("Descripción", "categoria.descripcion") ?>
         </div>
     </div>
-    <?= Myform::close()?>
-
-    <hr>
 
     <div class="form-actions">
         <?= Myform::btn_aceptar("Actualizar") ?>
         <?= Myhtml::btn_regresar("categorias/ver/{$categoria->id}") ?>
     </div>
-<?= Myform::close()?>
+<?= Myform::close() ?>

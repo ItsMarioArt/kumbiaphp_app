@@ -1,8 +1,9 @@
 <h1> <?= $usuario->email ?> </h1>
-<a href="http://localhost/kumbiaphp/usuarios">Regresar</a>
 <ul>
     <li>Rol ID: <?= $usuario->rol_id ?> </li> <!-- table data -->
     <li>Correo electrónico: <?= $usuario->email ?> </li>
     <li>Contraseña: <?= $usuario->password ?> </li>
     <li>Activo: <?= $usuario->activo ?> </li>
 </ul>
+
+<?= Myhtml::btn_acciones("usuarios", $usuario->id) ?>

@@ -1,0 +1,32 @@
+<?php
+// Opciones de los select: roles de la BD y estado activo/inactivo
+$roles   = (new Roles())->find();
+$estados = [
+    (object) ['id' => 1, 'nombre' => 'Activo'],
+    (object) ['id' => 0, 'nombre' => 'Inactivo'],
+];
+?>
+
+<?php View::content(); ?>
+
+<?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+
+    <div class="row g-3">
+        <div class="col-12">
+            <?= Myform::email_label("Correo electrónico", "usuario.email") ?>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <?= Myform::select_label("Rol", "usuario.rol_id", $roles) ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::select_label("Estado", "usuario.activo", $estados, [], (string) $usuario->activo) ?>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Actualizar") ?>
+        <?= Myhtml::btn_regresar("usuarios/ver/{$usuario->id}") ?>
+    </div>
+
+<?= Myform::close() ?>

@@ -162,11 +162,42 @@ class Myform
 
 
 
-    public static function open($action = '', $method = 'post', $attrs = '')
+    /**
+     * Abre el <form>. Si $action va vacío envía a la misma URL.
+     *
+     * @example Myform::open()
+     * @example Myform::open("", "post", ["class" => "form-edicion"])
+     *
+     * @param string       $action Acción (ruta de la aplicación), opcional
+     * @param string       $method Método HTTP, por defecto post
+     * @param string|array $attrs  Atributos del <form>
+     *
+     * @return string
+     */
+    public static function open($action = '', $method = 'post', $attrs = [])
     {
-        return Form::open($action = '', $method = 'post', $attrs = '');
+        return Form::open($action, $method, $attrs);
     }
-    public static function close(){
+
+    /**
+     * Abre un <form> con enctype multipart/form-data (necesario para file).
+     *
+     * @example Myform::openMultipart("", ["class" => "form-edicion"])
+     *
+     * @return string
+     */
+    public static function openMultipart($action = null, $attrs = [])
+    {
+        return Form::openMultipart($action, $attrs);
+    }
+
+    /**
+     * Cierra el <form>.
+     *
+     * @return string
+     */
+    public static function close()
+    {
         return Form::close();
     }
 
@@ -189,6 +220,242 @@ class Myform
         $attrs += ["rows" => "4"];
         $html =  "<label>$label</label>";
         return $html . Form::textarea($field, $attrs, $value);
+    }
+
+    /**
+     * Input genérico con la clase "form-control". Es la base de email,
+     * date, time, datetime, url, number y demás tipos.
+     *
+     * @example Myform::input("email", "usuario.email")
+     *
+     * @param string      $type  Tipo del input (text, email, date...)
+     * @param string      $field Nombre del campo
+     * @param array       $attrs Atributos adicionales
+     * @param string|null $value Valor (null = tomarlo del modelo)
+     *
+     * @return string HTML del input
+     */
+    public static function input($type, $field, $attrs = [], $value = null)
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "form-control"]);
+        return Form::input($type, $field, $attrs, $value);
+    }
+
+    /**
+     * Input genérico con su etiqueta <label>.
+     *
+     * @example Myform::input_label("Correo", "email", "usuario.email")
+     *
+     * @return string HTML del label + input
+     */
+    public static function input_label($label, $type, $field, $attrs = [], $value = null)
+    {
+        return "<label>$label</label>" . Myform::input($type, $field, $attrs, $value);
+    }
+
+    /**
+     * Campo de correo (type="email"). Con _label agrega la etiqueta.
+     *
+     * @example Myform::email("cliente.email")
+     * @example Myform::email_label("Correo electrónico", "cliente.email")
+     */
+    public static function email($field, $attrs = [], $value = null)
+    {
+        return Myform::input('email', $field, $attrs, $value);
+    }
+
+    public static function email_label($label, $field, $attrs = [], $value = null)
+    {
+        return Myform::input_label($label, 'email', $field, $attrs, $value);
+    }
+
+    /**
+     * Calendario nativo del navegador (type="date"). Con _label agrega la
+     * etiqueta. El valor debe ir en formato AAAA-MM-DD.
+     *
+     * @example Myform::date_label("Fecha de nacimiento", "perfil.fecha_nacimiento")
+     */
+    public static function date($field, $attrs = [], $value = null)
+    {
+        return Myform::input('date', $field, $attrs, $value);
+    }
+
+    public static function date_label($label, $field, $attrs = [], $value = null)
+    {
+        return Myform::input_label($label, 'date', $field, $attrs, $value);
+    }
+
+    /**
+     * Hora nativa (type="time").
+     *
+     * @example Myform::time_label("Hora", "cita.hora")
+     */
+    public static function time($field, $attrs = [], $value = null)
+    {
+        return Myform::input('time', $field, $attrs, $value);
+    }
+
+    public static function time_label($label, $field, $attrs = [], $value = null)
+    {
+        return Myform::input_label($label, 'time', $field, $attrs, $value);
+    }
+
+    /**
+     * Fecha y hora nativas (type="datetime-local"). El valor debe ir en
+     * formato AAAA-MM-DDTHH:MM.
+     *
+     * @example Myform::datetime_label("Entrega", "orden.entrega")
+     */
+    public static function datetime($field, $attrs = [], $value = null)
+    {
+        return Myform::input('datetime-local', $field, $attrs, $value);
+    }
+
+    public static function datetime_label($label, $field, $attrs = [], $value = null)
+    {
+        return Myform::input_label($label, 'datetime-local', $field, $attrs, $value);
+    }
+
+    /**
+     * Campo de dirección web (type="url").
+     *
+     * @example Myform::url_label("Sitio web", "marca.sitio")
+     */
+    public static function url($field, $attrs = [], $value = null)
+    {
+        return Myform::input('url', $field, $attrs, $value);
+    }
+
+    public static function url_label($label, $field, $attrs = [], $value = null)
+    {
+        return Myform::input_label($label, 'url', $field, $attrs, $value);
+    }
+
+    /**
+     * Campo numérico sin etiqueta (con etiqueta ver number_label).
+     *
+     * @example Myform::number("producto.stock", ["min" => "0"])
+     */
+    public static function number($field, $attrs = [], $value = null)
+    {
+        return Myform::input('number', $field, $attrs, $value);
+    }
+
+    /**
+     * Área de texto sin etiqueta (con etiqueta ver textarea_label).
+     *
+     * @example Myform::textarea("categoria.descripcion")
+     */
+    public static function textarea($field, $attrs = [], $value = null)
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "form-control"]);
+        $attrs += ["rows" => "4"];
+        return Form::textarea($field, $attrs, $value);
+    }
+
+    /**
+     * Select sin etiqueta (con etiqueta ver select_label).
+     *
+     * @example Myform::select("producto.marca_id", $marcas)
+     */
+    public static function select($field, $data, $attrs = [], $value = null, $show = 'nombre')
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "form-select"]);
+        return Form::select($field, $data, $attrs, $value, '', 'id', $show);
+    }
+
+    /**
+     * Campo oculto (hidden).
+     *
+     * @example Myform::hidden("producto.id")
+     */
+    public static function hidden($field, $attrs = [], $value = null)
+    {
+        return Form::hidden($field, $attrs, $value);
+    }
+
+    /**
+     * Campo de contraseña. Siempre sale vacío: no carga el valor del modelo
+     * para no mostrar el hash guardado en el HTML.
+     *
+     * @example Myform::password_label("Contraseña", "usuario.password")
+     */
+    public static function password($field, $attrs = [])
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "form-control"]);
+        $parts = explode('.', $field, 2);
+        $id    = isset($parts[1]) ? "{$parts[0]}_{$parts[1]}" : $parts[0];
+        $name  = isset($parts[1]) ? "{$parts[0]}[{$parts[1]}]" : $parts[0];
+        return "<input id=\"$id\" name=\"$name\" type=\"password\" value=\"\" " . Tag::getAttrs($attrs) . "/>";
+    }
+
+    public static function password_label($label, $field, $attrs = [])
+    {
+        return "<label>$label</label>" . Myform::password($field, $attrs);
+    }
+
+    public static function pass($field, $attrs = [])
+    {
+        return Myform::password($field, $attrs);
+    }
+
+    /**
+     * Campo para subir archivos. El formulario debe abrirse con
+     * Myform::openMultipart().
+     *
+     * @example Myform::file_label("Logo", "marca.logo")
+     */
+    public static function file($field, $attrs = [])
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "form-control"]);
+        return Form::file($field, $attrs);
+    }
+
+    public static function file_label($label, $field, $attrs = [])
+    {
+        return "<label>$label</label>" . Myform::file($field, $attrs);
+    }
+
+    /**
+     * Etiqueta <label> ligada a un campo (con atributo for).
+     *
+     * @example Myform::label("Nombre", "producto.nombre")
+     */
+    public static function label($text, $field, $attrs = [])
+    {
+        return Form::label($text, $field, $attrs);
+    }
+
+    /**
+     * Botón de limpiar el formulario (reset).
+     *
+     * @example Myform::reset("Limpiar")
+     */
+    public static function reset($text = "Limpiar", $attrs = [])
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "btn btn-outline-secondary"]);
+        return Form::reset(" " . $text, $attrs);
+    }
+
+    /**
+     * Botón genérico (por defecto type="button").
+     *
+     * @example Myform::button("Cancelar", ["class" => "btn-lg"])
+     */
+    public static function button($text, $attrs = [], $type = 'button', $value = null)
+    {
+        $attrs = Myform::attrsdefaut($attrs, ["class" => "btn btn-secondary"]);
+        return Form::button($text, $attrs, $type, $value);
+    }
+
+    /**
+     * Botón de envío con imagen (la imagen se busca en public/img/).
+     *
+     * @example Myform::submit_image("enviar.png")
+     */
+    public static function submit_image($img, $attrs = [])
+    {
+        return Form::submitImage($img, $attrs);
     }
 
     /* Crear los metodos para

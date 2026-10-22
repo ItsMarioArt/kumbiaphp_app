@@ -6,34 +6,87 @@
  *
  */
 class ClientesController extends AppController{
-    public function items(){
-        return [
-            1 => (object) ['id' => 1, 'nombre' => 'Camila Flores', 'empresa' => 'ACME S.A.', 'email' => 'contacto@acmesa.com', 'telefono' => '8197646097', 'ciudad' => 'Guadalajara', 'pais_id' => 1, 'limite_credito' => 62077.24],
-            2 => (object) ['id' => 2, 'nombre' => 'Andrés Gómez', 'empresa' => 'TechNova', 'email' => 'contacto@technova.com', 'telefono' => '8153818135', 'ciudad' => 'Monterrey', 'pais_id' => 1, 'limite_credito' => 158559.84],
-            3 => (object) ['id' => 3, 'nombre' => 'Paola Vargas', 'empresa' => 'Grupo Andino', 'email' => 'contacto@grupoandino.com', 'telefono' => '8170730511', 'ciudad' => 'Puebla', 'pais_id' => 1, 'limite_credito' => 42912.99],
-            4 => (object) ['id' => 4, 'nombre' => 'Héctor Castillo', 'empresa' => 'BlueSoft', 'email' => 'contacto@bluesoft.com', 'telefono' => '8126463034', 'ciudad' => 'Tijuana', 'pais_id' => 1, 'limite_credito' => 65464.29],
-            5 => (object) ['id' => 5, 'nombre' => 'Daniela Morales', 'empresa' => 'Construmex', 'email' => 'contacto@construmex.com', 'telefono' => '8122725085', 'ciudad' => 'Mérida', 'pais_id' => 1, 'limite_credito' => 94233.83],
-            6 => (object) ['id' => 6, 'nombre' => 'Martín Ortiz', 'empresa' => 'Vitalis', 'email' => 'contacto@vitalis.com', 'telefono' => '8166263253', 'ciudad' => 'León', 'pais_id' => 1, 'limite_credito' => 124280.54],
-            7 => (object) ['id' => 7, 'nombre' => 'Lucía Silva', 'empresa' => 'DataCore', 'email' => 'contacto@datacore.com', 'telefono' => '8120015711', 'ciudad' => 'Querétaro', 'pais_id' => 1, 'limite_credito' => 67064.44],
-            8 => (object) ['id' => 8, 'nombre' => 'Gabriel Ruiz', 'empresa' => 'Solaria', 'email' => 'contacto@solaria.com', 'telefono' => '8123070826', 'ciudad' => 'Cancún', 'pais_id' => 1, 'limite_credito' => 138930.44],
-        ];
-    }
     /*
      * accion: index
      * vista: app/views/clientes/index.phtml
      * url: /clientes
      */
     public function index(){
-        $this->clientes = $this->items();
+        $this->clientes = (new Clientes)->find();
     }
+
     /*
      * accion: ver
      * vista: clientes/ver.phtml
      * url: /clientes/ver/:id
      */
     public function ver($id){
+        $this->cliente = (new Clientes)->find((int) $id);
 
+        if (!$this->cliente) {
+            Flash::error('El cliente no existe');
+            Redirect::to('clientes');
+        }
+    }
 
-        $this->cliente = $this->items()[$id];
+    /*
+     * accion: editar
+     * vista: clientes/editar.phtml
+     * url: /clientes/editar/:id
+     */
+    public function editar($id){
+        $this->cliente = (new Clientes)->find((int) $id);
+
+        if (!$this->cliente) {
+            Flash::error('El cliente no existe');
+            Redirect::to('clientes');
+            return;
+        }
+
+        $this->setPage("Editar: {$this->cliente->nombre}", 'Modifica los datos del cliente', [
+            ['label' => 'Inicio', 'url' => URL],
+            ['label' => 'Clientes', 'url' => URL . 'clientes'],
+            ['label' => 'Editar']
+        ]);
+
+        if (Input::hasPost('cliente.nombre')) {
+            $params = Input::post('cliente');
+
+            $this->cliente->nombre         = trim($params['nombre']);
+            $this->cliente->empresa        = trim($params['empresa']);
+            $this->cliente->email          = trim($params['email']);
+            $this->cliente->telefono       = trim($params['telefono']);
+            $this->cliente->ciudad         = trim($params['ciudad']);
+            $this->cliente->pais_id        = (int) $params['pais_id'];
+            $this->cliente->limite_credito = trim($params['limite_credito']);
+
+            if ($this->cliente->nombre === '' || $this->cliente->empresa === '' ||
+                $this->cliente->telefono === '' || $this->cliente->ciudad === '') {
+                Flash::error('Nombre, empresa, teléfono y ciudad son obligatorios');
+                return;
+            }
+
+            if (!filter_var($this->cliente->email, FILTER_VALIDATE_EMAIL)) {
+                Flash::error('El correo electrónico no es válido');
+                return;
+            }
+
+            if (!is_numeric($this->cliente->limite_credito) || $this->cliente->limite_credito < 0) {
+                Flash::error('El límite de crédito debe ser un número mayor o igual a 0');
+                return;
+            }
+
+            try {
+                $guardado = $this->cliente->save();
+            } catch (Throwable $e) {
+                $guardado = false;
+            }
+
+            if ($guardado) {
+                Flash::valid('Cliente actualizado correctamente');
+            } else {
+                Flash::error('No se pudo guardar el cliente. Revisa que el correo no esté repetido');
+            }
+        }
     }
 }

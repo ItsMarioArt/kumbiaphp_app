@@ -25,21 +25,54 @@ class MetodosEnvioController extends AppController {
         $this->metodo_envio = (new MetodosEnvio)->find($id);
     }
 
+    /*
+     * accion: editar
+     * vista: app/views/metodosenvio/editar.phtml
+     * url: /metodosenvio/editar/:id
+     */
     public function editar($id){
-        $this->metodo_envio = (new MetodosEnvio) -> find($id);
+        $this->metodo_envio = (new MetodosEnvio)->find((int) $id);
 
-        if(Input::hasPost('metodos_envio.nombre')){
-            $params = Input::post('metodos_envio');
-            $this->metodo_envio->nombre = $params['nombre'];
-            $this->metodo_envio->costo = $params['costo'];
-            $this->metodo_envio->tiempo_entrega = $params['tiempo_entrega'];
+        if (!$this->metodo_envio) {
+            Flash::error('El método de envío no existe');
+            Redirect::to('metodosenvio');
+            return;
+        }
 
-            if ($this->metodo_envio->save()) {
+        $this->setPage("Editar: {$this->metodo_envio->nombre}", 'Modifica los datos del método de envío', [
+            ['label' => 'Inicio', 'url' => URL],
+            ['label' => 'Métodos de envío', 'url' => URL . 'metodosenvio'],
+            ['label' => 'Editar']
+        ]);
+
+        if (Input::hasPost('metodo_envio.nombre')) {
+            $params = Input::post('metodo_envio');
+
+            $this->metodo_envio->nombre         = trim($params['nombre']);
+            $this->metodo_envio->costo          = trim($params['costo']);
+            $this->metodo_envio->tiempo_entrega = trim($params['tiempo_entrega']);
+
+            if ($this->metodo_envio->nombre === '' || $this->metodo_envio->tiempo_entrega === '') {
+                Flash::error('El nombre y el tiempo de entrega son obligatorios');
+                return;
+            }
+
+            if (!is_numeric($this->metodo_envio->costo) || $this->metodo_envio->costo < 0) {
+                Flash::error('El costo debe ser un número mayor o igual a 0');
+                return;
+            }
+
+            try {
+                $guardado = $this->metodo_envio->save();
+            } catch (Throwable $e) {
+                $guardado = false;
+            }
+
+            if ($guardado) {
                 Flash::valid('Método de envío actualizado correctamente');
             } else {
                 Flash::error('No se pudo guardar el método de envío');
             }
-
         }
     }
 

@@ -1,9 +1,10 @@
-<h1> <?= $paises->nombre ?> </h1>
-<a href="http://localhost/kumbiaphp/paises">Regresar</a>
+<h1> <?= $pais->nombre ?> </h1>
 <ul>
-    <li>Capital: <?= $paises->capital ?> </li>
-    <li>Código ISO: <?= $paises->codigo_iso ?> </li>
-    <li>Continente: <?= $paises->continente ?> </li>
-    <li>Moneda: <?= $paises->moneda ?> </li>
-    <li>Población: <?= number_format($paises->poblacion, 0, '.', ',') ?> </li>
+    <li>Capital: <?= $pais->capital ?> </li>
+    <li>Código ISO: <?= $pais->codigo_iso ?> </li>
+    <li>Continente: <?= $pais->continente ?> </li>
+    <li>Moneda: <?= $pais->moneda ?> </li>
+    <li>Población: <?= number_format($pais->poblacion, 0, '.', ',') ?> </li>
 </ul>
+
+<?= Myhtml::btn_acciones("paises", $pais->id) ?>

@@ -1,24 +1,23 @@
-<h1> Editar: <?= $metodo_envio->nombre ?> </h1>
-
 <?php View::content(); ?>
 
-<a href="http://localhost/kumbiaphp/metodosenvio/ver/<?= $metodo_envio->id ?>">Regresar</a>
-<form method="post">
-    <label>Nombre:</label>
-    <input type="text"
-           name="metodos_envio[nombre]"
-           value="<?= $metodo_envio->nombre ?>">
+<?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
 
-    <label>Costo:</label>
-    <input type="number"
-           name="metodos_envio[costo]"
-           value="<?= $metodo_envio->costo ?>">
+    <div class="row g-3">
+        <div class="col-12">
+            <?= Myform::text_label("Nombre", "metodo_envio.nombre") ?>
+        </div>
 
-    <label>Tiempo de entrega:</label>
-    <input type="text"
-           name="metodos_envio[tiempo_entrega]"
-           value="<?= $metodo_envio->tiempo_entrega ?>">
+        <div class="col-12 col-md-6">
+            <?= Myform::number_label("Costo", "metodo_envio.costo", ["step" => "0.01", "min" => "0"], (string) $metodo_envio->costo) ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Tiempo de entrega", "metodo_envio.tiempo_entrega") ?>
+        </div>
+    </div>
 
-    <button type="submit">Actualizar</button>
-</form>
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Actualizar") ?>
+        <?= Myhtml::btn_regresar("metodosenvio/ver/{$metodo_envio->id}") ?>
+    </div>
 
+<?= Myform::close() ?>

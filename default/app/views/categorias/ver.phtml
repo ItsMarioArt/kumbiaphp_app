@@ -5,8 +5,4 @@
     <li>Descripción: <?= $categoria->descripcion ?> </li>
 </ul>
 
-<div class="d-flex flex-wrap justify-content-center gap-2 mt-4">
-    <?= Myhtml::btn_editar("categorias/editar/{$categoria->id}", "Editar", ["class" => "btn-lg px-4"]) ?>
-    <?= Myhtml::btn_regresar("categorias", "Regresar", ["class" => "btn-lg px-4"]) ?>
-    <?= Myhtml::btn_eliminar("Eliminars", ["class" => "btn-lg px-4"]) ?>
-</div>
+<?= Myhtml::btn_acciones("categorias", $categoria->id) ?>

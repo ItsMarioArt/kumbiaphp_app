@@ -14,11 +14,8 @@
     <tbody>
     <?php foreach ($productos as $p): ?>
         <tr>
-            <td><a href="<?= URL ?>productos/ver/<?= $p->id ?>">Ver</a>
-                |
-                <?= Html::link("productos/ver/{$p->id}","link Ver") ?>
-                |
-                <?= Myhtml::enlace("productos/ver/{$p->id}","My Ver") ?>
+            <td>
+                <?= Html::link("productos/ver/{$p->id}","Ver") ?>
             </td>
             <td> <?= $p->nombre ?> </td> <!-- table data -->
             <td> <?= $p->descripcion_corta ?> </td>

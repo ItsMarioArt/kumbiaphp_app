@@ -11,9 +11,8 @@
     <tbody>
     <?php foreach ($marcas as $m): ?>
         <tr>
-            <td><a href="<?= URL ?>marcas/ver/<?= $m->id ?>">Ver</a>
-                |
-                <?= Myhtml::enlace("marcas/ver/{$m->id}", "My Ver") ?>
+            <td>
+                <?= Html::link("marcas/ver/{$m->id}","Ver") ?>
             </td>
             <td> <?= $m->nombre ?> </td> <!-- table data -->
             <td> <?= $m->slug ?> </td>

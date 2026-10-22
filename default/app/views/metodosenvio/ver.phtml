@@ -1,10 +1,8 @@
 <h1> <?= $metodo_envio->nombre ?> </h1>
-<a href="http://localhost/kumbiaphp/metodosenvio">Regresar</a>
 <ul>
     <li>Nombre: <?= $metodo_envio->nombre ?> </li>
     <li>Costo: $<?= number_format($metodo_envio->costo) ?> </li>
     <li>Tiempo de entrega: <?= $metodo_envio->tiempo_entrega ?> </li>
 </ul>
 
-
-<a href=" <?= URL ?>metodosenvio/editar/<?= $metodo_envio->id ?>">✏️ EDITAR ✏️</a>
+<?= Myhtml::btn_acciones("metodosenvio", $metodo_envio->id) ?>

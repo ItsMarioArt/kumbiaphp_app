@@ -1,0 +1,33 @@
+<?php View::content(); ?>
+
+<?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Nombre", "pais.nombre") ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Capital", "pais.capital") ?>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Código ISO", "pais.codigo_iso", ["maxlength" => "2", "class" => "text-uppercase"]) ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Continente", "pais.continente") ?>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Moneda", "pais.moneda") ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::number_label("Población", "pais.poblacion", ["min" => "0", "step" => "1"], (string) $pais->poblacion) ?>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Actualizar") ?>
+        <?= Myhtml::btn_regresar("paises/ver/{$pais->id}") ?>
+    </div>
+
+<?= Myform::close() ?>

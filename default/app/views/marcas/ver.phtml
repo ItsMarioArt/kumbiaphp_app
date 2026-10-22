@@ -4,8 +4,4 @@
     <li>Slug: <?= $marca->slug ?> </li>
 </ul>
 
-<div class="d-flex flex-wrap justify-content-center gap-2 mt-4">
-    <?= Myhtml::btn_editar("marcas/editar/{$marca->id}", "Editar", ["class" => "btn-lg px-4"]) ?>
-    <?= Myhtml::btn_regresar("marcas", "Regresar", ["class" => "btn-lg px-4"]) ?>
-    <?= Myhtml::btn_eliminar("Eliminar", ["class" => "btn-lg px-4"]) ?>
-</div>
+<?= Myhtml::btn_acciones("marcas", $marca->id) ?>

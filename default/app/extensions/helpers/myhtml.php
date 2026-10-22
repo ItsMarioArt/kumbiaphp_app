@@ -110,6 +110,23 @@ class Myhtml{
     }
 
     /*
+     * Los tres botones de la pantalla "ver" juntos y centrados:
+     * Editar, Regresar y Eliminar (este ultimo sigue siendo solo diseno).
+     * $controlador es el modulo ("categorias") y $id el registro.
+     *
+     * ejemplo:
+     *   Myhtml::btn_acciones("categorias", $categoria->id)
+     */
+    public static function btn_acciones($controlador, $id, $attrs = ["class" => "btn-lg px-4"])
+    {
+        return '<div class="d-flex flex-wrap justify-content-center gap-2 mt-4">'
+            . Myhtml::btn_editar("$controlador/editar/$id", "Editar", $attrs)
+            . Myhtml::btn_regresar($controlador, "Regresar", $attrs)
+            . Myhtml::btn_eliminar("Eliminar", $attrs)
+            . '</div>';
+    }
+
+    /*
      * Diseno de funciones para
      * boton guardar
      * boton cancelar

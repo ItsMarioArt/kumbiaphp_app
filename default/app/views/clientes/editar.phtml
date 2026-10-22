@@ -1,0 +1,42 @@
+<?php
+// Opciones del select de país
+$paises = (new Paises())->find();
+?>
+
+<?php View::content(); ?>
+
+<?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Nombre", "cliente.nombre") ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Empresa", "cliente.empresa") ?>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <?= Myform::email_label("Correo electrónico", "cliente.email") ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Teléfono", "cliente.telefono") ?>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Ciudad", "cliente.ciudad") ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::select_label("País", "cliente.pais_id", $paises) ?>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <?= Myform::number_label("Límite de crédito", "cliente.limite_credito", ["step" => "0.01", "min" => "0"], (string) $cliente->limite_credito) ?>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Actualizar") ?>
+        <?= Myhtml::btn_regresar("clientes/ver/{$cliente->id}") ?>
+    </div>
+
+<?= Myform::close() ?>

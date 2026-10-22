@@ -1,0 +1,30 @@
+<?php View::content(); ?>
+
+<?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Orden", "pago.orden_id", ["readonly" => "readonly", "disabled" => "disabled"]) ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Método de pago", "pago.metodo_pago", ["readonly" => "readonly", "disabled" => "disabled"]) ?>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Transacción", "pago.transaccion_id", ["readonly" => "readonly", "disabled" => "disabled"]) ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::number_label("Monto", "pago.monto", ["readonly" => "readonly", "disabled" => "disabled"], (string) $pago->monto) ?>
+        </div>
+
+        <div class="col-12">
+            <?= Myform::text_label("Estado", "pago.estado", ["maxlength" => "50"]) ?>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Actualizar") ?>
+        <?= Myhtml::btn_regresar("pagos/ver/{$pago->id}") ?>
+    </div>
+
+<?= Myform::close() ?>

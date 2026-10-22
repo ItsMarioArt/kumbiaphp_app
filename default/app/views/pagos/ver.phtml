@@ -1,5 +1,4 @@
 <h1> <?= $pago->orden_id ?> </h1>
-<a href="http://localhost/kumbiaphp/pagos">Regresar</a>
 <ul>
     <li>Orden ID: <?= $pago->orden_id ?> </li>
     <li>Método de pago: <?= $pago->metodo_pago ?> </li>
@@ -7,3 +6,5 @@
     <li>Monto: $<?= number_format($pago->monto) ?></li>
     <li>Estado: <?= $pago->estado ?> </li>
 </ul>
+
+<?= Myhtml::btn_acciones("pagos", $pago->id) ?>

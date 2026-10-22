@@ -1,0 +1,28 @@
+<?php
+// Opciones del select de estado
+$estados = (new EstadosOrdenes())->find();
+?>
+
+<?php View::content(); ?>
+
+<?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <?= Myform::text_label("Folio", "orden.folio", ["readonly" => "readonly", "disabled" => "disabled"]) ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::select_label("Estado", "orden.estado_orden_id", $estados) ?>
+        </div>
+
+        <div class="col-12">
+            <?= Myform::textarea_label("Dirección de envío", "orden.direccion_envio_snap") ?>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Actualizar") ?>
+        <?= Myhtml::btn_regresar("ordenes/ver/{$orden->id}") ?>
+    </div>
+
+<?= Myform::close() ?>

@@ -6,7 +6,7 @@ $marcas     = (new Marcas())->get_activos();
 
 <?php View::content(); ?>
 
-<?= Myform::open()?>
+<?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
     <div class="row g-3">
         <div class="col-12">
             <?= Myform::text_label("Nombre", "producto.nombre") ?>
@@ -27,11 +27,9 @@ $marcas     = (new Marcas())->get_activos();
         </div>
     </div>
 
-    <hr>
-
     <div class="form-actions">
         <?= Myform::btn_aceptar("Actualizar") ?>
         <?= Myhtml::btn_regresar("productos/ver/{$producto->id}") ?>
     </div>
 
-<?= Myform::close()?>
+<?= Myform::close() ?>
