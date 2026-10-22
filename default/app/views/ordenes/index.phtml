@@ -19,14 +19,16 @@
     <?php foreach ($ordenes as $o): ?>
         <tr>
             <td> <a href="http://localhost/kumbiaphp/ordenes/ver/<?= $o->id ?>">Ver</a> </td>
-            <td> <?= $o->usuario_id ?> </td> <!-- table data -->
-            <td> <?= $o->estado_orden_id ?> </td>
-            <td> <?= $o->metodo_envio_id ?> </td>
+            <td> <?= $o->email ?> </td>
+            <td> <?= $o->estado_orden ?> </td>
+            <td> <?= $o->metodo_envio ?> </td>
             <td> <?= $o->folio ?> </td>
             <td> $<?= number_format($o->subtotal) ?></td>
             <td> $<?= number_format($o->costo_envio) ?></td>
             <td> $<?= number_format($o->total) ?></td>
             <td> <?= $o->direccion_envio_snap ?> </td>
+
+
 
         </tr>
     <?php endforeach; ?>

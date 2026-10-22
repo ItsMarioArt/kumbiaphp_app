@@ -8,6 +8,7 @@
     <li>Costo de envío: $<?= number_format($orden->costo_envio) ?></li>
     <li>TOTAL: $<?= number_format($orden->total) ?></li>
     <li>Dirección de envío ID: <?= $orden->direccion_envio_snap ?> </li>
+
 </ul>
 
 <?= Myhtml::btn_acciones("ordenes", $orden->id) ?>

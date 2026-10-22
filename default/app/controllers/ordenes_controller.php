@@ -13,7 +13,8 @@ class OrdenesController extends AppController{
      * url: /ordenes
      */
     public function index(){
-        $this->ordenes = (new Ordenes) -> find();
+        /* <!--$this->ordenes = (new Ordenes) -> find(); */
+        $this->ordenes = (new Ordenes)->get_ordenes(1);
     }
     /*
      * accion: ver
