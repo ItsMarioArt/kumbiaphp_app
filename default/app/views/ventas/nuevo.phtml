@@ -1,0 +1,21 @@
+<?php View::content(); ?>
+
+<?php if (isset($clientes)): ?>
+    <!-- Formulario para elegir el cliente de la venta -->
+    <?= Myform::open() ?>
+
+    <select name="venta[cliente_id]" class="form-control">
+        <?php foreach ($clientes as $c): ?>
+            <option value="<?= $c->id ?>"><?= $c->email ?></option>
+        <?php endforeach; ?>
+    </select>
+
+    <?= Myform::btn_aceptar( text: "Crear venta") ?>
+
+    <?= Myform::close() ?>
+<?php elseif (isset($venta)): ?>
+    <!-- La venta abierta ya existe (o fue creada): mostrar sus datos -->
+    <h3>Venta # <?= $venta->id ?></h3>
+    <p>Cliente: <?= $venta->cliente_id ?></p>
+    <p>Fecha: <?= $venta->fecha ?></p>
+<?php endif; ?>
