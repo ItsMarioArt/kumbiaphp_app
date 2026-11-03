@@ -22,4 +22,11 @@ class VentasController extends AppController
             Flash::info("Venta abierta del cliente {$cliente_id}");
         }
     }
+
+    public function cerrar($cliente_id = null){
+        if (Input::hasPost('finalizar')) {
+            $this->venta->finalizar();
+        }
+        Redirect::to('ventas/nuevo');
+    }
 }

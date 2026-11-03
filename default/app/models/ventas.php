@@ -1,6 +1,6 @@
 <?php
 
-class Ventas
+class Ventas extends ActiveRecord
 {
     public function get_abierta($cliente_id)
     {
@@ -16,4 +16,5 @@ class Ventas
 
         return $venta;
     }
+
 }
