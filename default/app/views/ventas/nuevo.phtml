@@ -81,10 +81,21 @@
             </tfoot>
         </table>
 
-        <!-- 3) Finalizar la venta (CODIGO 2.2) -->
+        <!-- 3) Finalizar la venta con el pago (CODIGO 3.3) -->
         <?php if ($items): ?>
+            <?php $total = number_format((float) $venta->total, 2, '.', ''); ?>
+
             <?= Myform::open("ventas/cerrar/{$cliente->id}", "post", ["class" => "form-edicion"]) ?>
             <?= Myform::hidden("finalizar.venta", [], "1") ?>
+
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <?= Myform::select_label("Método de pago", "finalizar.metodo_id", $metodos, [], null, "metodo") ?>
+                </div>
+                <div class="col-12 col-md-6">
+                    <?= Myform::number_label("Monto", "finalizar.monto", ["min" => "0", "max" => $total, "step" => "0.01"], $total) ?>
+                </div>
+            </div>
 
             <div class="form-actions">
                 <?= Myform::btn_aceptar("Finalizar venta") ?>

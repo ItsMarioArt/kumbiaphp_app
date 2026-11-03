@@ -46,6 +46,7 @@ class VentasController extends AppController
         }
 
         $this->productos = (new Productos())->get_activos();
+        $this->metodos   = (new PagosMetodos())->get_activos();
         $this->items = $this->venta->getItems();
     }
 
@@ -69,11 +70,14 @@ class VentasController extends AppController
                 return;
             }
 
-            if ($venta->finalizar()) {
-                Flash::valid("Venta #{$venta->id} finalizada");
+            if ($venta->finalizar(Input::post('finalizar'))) {
+                Flash::valid("Venta #{$venta->id} finalizada. Por pagar: $" . number_format((float) $venta->por_pagar, 2));
+                Redirect::to("ventas/nuevo");
             } else {
-                Flash::error("No se pudo finalizar la venta");
+                // el modelo ya dejo el mensaje de error: se regresa a la misma venta
+                Redirect::to("ventas/nuevo/{$cliente->id}");
             }
+            return;
         }
 
         Redirect::to("ventas/nuevo");

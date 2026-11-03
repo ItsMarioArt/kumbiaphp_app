@@ -109,14 +109,51 @@ class Ventas extends ActiveRecord
     }
 
     /*
-     * Cierra la venta. Version de CAMBIO 2 (sin pagos): todo el total queda
-     * por pagar. En el CAMBIO 3 pasa a recibir los datos del pago.
+     * CODIGO 3.4: cierra la venta registrando el pago inicial.
+     * El total NO cambia: lo pagado se resta de por_pagar.
+     * $params = ['metodo_id' => ..., 'monto' => ...]. Si el monto es 0 no se
+     * registra pago y todo el total queda por pagar.
+     * Regresa true/false; si falla deja el mensaje con Flash::error.
      */
-    public function finalizar()
+    public function finalizar($params)
     {
-        $this->update_total();
+        $this->update_total();                       // refresca $this->total
+
+        $total = (float) $this->total;
+        $monto = round((float) ($params['monto'] ?? 0), 2);
+
+        if ($monto < 0 || $monto > $total) {
+            Flash::error("El monto debe estar entre 0 y el total de la venta ($" . number_format($total, 2) . ")");
+            return false;
+        }
+
+        if ($monto > 0) {
+            $metodo = (new PagosMetodos())->find_first((int) ($params['metodo_id'] ?? 0));
+
+            if (!$metodo || !$metodo->activo) {
+                Flash::error("Elige un método de pago válido");
+                return false;
+            }
+
+            $pago = new Pagos();
+            $pago->venta_id  = $this->id;
+            $pago->metodo_id = $metodo->id;
+            $pago->monto     = $monto;
+
+            try {
+                $guardado = $pago->save();
+            } catch (Throwable $e) {
+                $guardado = false;
+            }
+
+            if (!$guardado) {
+                Flash::error("No se pudo registrar el pago");
+                return false;
+            }
+        }
+
         $this->cerrada   = 1;
-        $this->por_pagar = $this->total;
+        $this->por_pagar = round($total - $monto, 2);
 
         return $this->save();
     }
