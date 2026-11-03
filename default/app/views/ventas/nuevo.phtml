@@ -1,21 +1,89 @@
 <?php View::content(); ?>
 
 <?php if (isset($clientes)): ?>
-    <!-- Formulario para elegir el cliente de la venta -->
-    <?= Myform::open() ?>
 
-    <select name="venta[cliente_id]" class="form-control">
-        <?php foreach ($clientes as $c): ?>
-            <option value="<?= $c->id ?>"><?= $c->email ?></option>
-        <?php endforeach; ?>
-    </select>
+    <!-- 1) Elegir el cliente de la venta -->
+    <?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
 
-    <?= Myform::btn_aceptar( text: "Crear venta") ?>
+    <?= Myform::select_label("Cliente", "venta.cliente_id", $clientes) ?>
+
+    <div class="form-actions">
+        <?= Myform::btn_aceptar("Crear venta") ?>
+    </div>
 
     <?= Myform::close() ?>
+
 <?php elseif (isset($venta)): ?>
-    <!-- La venta abierta ya existe (o fue creada): mostrar sus datos -->
-    <h3>Venta # <?= $venta->id ?></h3>
-    <p>Cliente: <?= $venta->cliente_id ?></p>
-    <p>Fecha: <?= $venta->fecha ?></p>
+
+    <div class="mx-auto text-start" style="max-width: 720px;">
+
+        <!-- La venta abierta ya existe (o fue creada): sus datos -->
+        <h3>Venta #<?= $venta->id ?></h3>
+        <p class="mb-1">Cliente: <?= $cliente->nombre ?></p>
+        <p>Fecha: <?= $venta->fecha ?></p>
+
+        <!-- 2) Agregar un producto -->
+        <?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+
+        <div class="row g-3">
+            <div class="col-12 col-md-8">
+                <?= Myform::select_label("Producto", "item.producto_id", $productos) ?>
+            </div>
+            <div class="col-12 col-md-4">
+                <?= Myform::number_label("Cantidad", "item.cantidad", ["min" => "1"], "1") ?>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <?= Myform::btn_aceptar("Agregar") ?>
+        </div>
+
+        <?= Myform::close() ?>
+
+        <!-- Renglones de la venta -->
+        <table class="table table-sm align-middle mt-4">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th class="text-end">Cantidad</th>
+                <th class="text-end">Unitario</th>
+                <th class="text-end">Importe</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($items as $i): ?>
+                <tr>
+                    <td><?= $i->descripcion ?></td>
+                    <td class="text-end"><?= $i->cantidad ?></td>
+                    <td class="text-end">$<?= number_format((float) $i->unitario, 2) ?></td>
+                    <td class="text-end">$<?= number_format((float) $i->importe, 2) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            <?php if (!$items): ?>
+                <tr>
+                    <td colspan="4" class="text-muted">Todavía no hay productos en esta venta.</td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="3" class="text-end">Total</th>
+                <th class="text-end">$<?= number_format((float) $venta->total, 2) ?></th>
+            </tr>
+            </tfoot>
+        </table>
+
+        <!-- 3) Finalizar la venta (CODIGO 5) -->
+        <?php if ($items): ?>
+            <?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+            <?= Myform::hidden("finalizar.venta", [], "1") ?>
+
+            <div class="form-actions">
+                <?= Myform::btn_aceptar("Finalizar venta") ?>
+            </div>
+            <?= Myform::close() ?>
+        <?php endif; ?>
+
+    </div>
+
 <?php endif; ?>
