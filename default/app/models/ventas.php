@@ -69,8 +69,31 @@ class Ventas extends ActiveRecord
     }
 
     /*
-     * CODIGO 2.6 (adelantado, porque VentasItems lo necesita): recalcula el total
-     * con la suma de los renglones y refresca este objeto con el valor guardado.
+     * CODIGO 2.5: quita un renglon de ESTA venta (se valida que le pertenezca).
+     * VentasItems::after_delete recalcula el total en la base; aqui se vuelve a
+     * llamar update_total() solo para refrescar este objeto.
+     */
+    public function quitar_item($item_id)
+    {
+        $item_id = (int) $item_id;
+
+        $item = (new VentasItems())->find_first("conditions: venta_id = {$this->id} AND id = $item_id");
+
+        if (!$item) {
+            Flash::error("El producto no pertenece a esta venta");
+            return $this;
+        }
+
+        $item->delete();
+        $this->update_total();
+        Flash::valid("Producto quitado de la venta #{$this->id}");
+
+        return $this;
+    }
+
+    /*
+     * CODIGO 2.6: recalcula el total con la suma de los renglones y refresca
+     * este objeto con el valor guardado.
      */
     public function update_total()
     {
@@ -86,8 +109,8 @@ class Ventas extends ActiveRecord
     }
 
     /*
-     * Cierra la venta. Version simple de CAMBIO 1 (sin pagos): todo el total
-     * queda por pagar. En el CAMBIO 3 pasa a recibir los datos del pago.
+     * Cierra la venta. Version de CAMBIO 2 (sin pagos): todo el total queda
+     * por pagar. En el CAMBIO 3 pasa a recibir los datos del pago.
      */
     public function finalizar()
     {

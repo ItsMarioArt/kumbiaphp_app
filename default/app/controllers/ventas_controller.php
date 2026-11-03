@@ -45,25 +45,59 @@ class VentasController extends AppController
             return;
         }
 
-        // Finalizar la venta (CODIGO 7)
+        $this->productos = (new Productos())->get_activos();
+        $this->items = $this->venta->getItems();
+    }
+
+    /*
+     * CODIGO 2.1: finalizar la venta abierta del cliente (solo por POST).
+     * Sustituye al bloque "finalizar" del CODIGO 7, que ya no va en nuevo().
+     */
+    public function cerrar($cliente_id = null)
+    {
         if (Input::hasPost('finalizar')) {
-            if (!$this->venta->getItems()) {
-                Flash::error("Agrega al menos un producto antes de finalizar la venta");
-                Redirect::to("ventas/nuevo/{$this->cliente->id}");
+            $cliente = $this->cargar_cliente($cliente_id);
+            if (!$cliente) {
                 return;
             }
 
-            if ($this->venta->finalizar()) {
-                Flash::valid("Venta #{$this->venta->id} finalizada");
+            $venta = (new Ventas())->get_abierta($cliente->id);
+
+            if (!$venta->getItems()) {
+                Flash::error("Agrega al menos un producto antes de finalizar la venta");
+                Redirect::to("ventas/nuevo/{$cliente->id}");
+                return;
+            }
+
+            if ($venta->finalizar()) {
+                Flash::valid("Venta #{$venta->id} finalizada");
             } else {
                 Flash::error("No se pudo finalizar la venta");
             }
-            Redirect::to("ventas/nuevo");
+        }
+
+        Redirect::to("ventas/nuevo");
+    }
+
+    /*
+     * CODIGO 2.4: quitar un renglon de la venta abierta (solo por POST).
+     */
+    public function quitar_item($cliente_id = null, $item_id = null)
+    {
+        if (Input::is('POST')) {
+            $cliente = $this->cargar_cliente($cliente_id);
+            if (!$cliente) {
+                return;
+            }
+
+            $venta = (new Ventas())->get_abierta($cliente->id);
+            $venta->quitar_item($item_id);
+
+            Redirect::to("ventas/nuevo/{$cliente->id}");
             return;
         }
 
-        $this->productos = (new Productos())->get_activos();
-        $this->items = $this->venta->getItems();
+        Redirect::to("ventas/nuevo/" . (int) $cliente_id);
     }
 
     /*

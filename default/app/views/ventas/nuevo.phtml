@@ -48,6 +48,7 @@
                 <th class="text-end">Cantidad</th>
                 <th class="text-end">Unitario</th>
                 <th class="text-end">Importe</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -57,11 +58,17 @@
                     <td class="text-end"><?= $i->cantidad ?></td>
                     <td class="text-end">$<?= number_format((float) $i->unitario, 2) ?></td>
                     <td class="text-end">$<?= number_format((float) $i->importe, 2) ?></td>
+                    <!-- CODIGO 2.3: quitar el renglon -->
+                    <td class="text-end">
+                        <?= Myform::open("ventas/quitar_item/{$cliente->id}/{$i->id}") ?>
+                        <?= Myform::btn_aceptar("Quitar", ["class" => "btn-sm btn-outline-danger"]) ?>
+                        <?= Myform::close() ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             <?php if (!$items): ?>
                 <tr>
-                    <td colspan="4" class="text-muted">Todavía no hay productos en esta venta.</td>
+                    <td colspan="5" class="text-muted">Todavía no hay productos en esta venta.</td>
                 </tr>
             <?php endif; ?>
             </tbody>
@@ -69,13 +76,14 @@
             <tr>
                 <th colspan="3" class="text-end">Total</th>
                 <th class="text-end">$<?= number_format((float) $venta->total, 2) ?></th>
+                <th></th>
             </tr>
             </tfoot>
         </table>
 
-        <!-- 3) Finalizar la venta (CODIGO 5) -->
+        <!-- 3) Finalizar la venta (CODIGO 2.2) -->
         <?php if ($items): ?>
-            <?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+            <?= Myform::open("ventas/cerrar/{$cliente->id}", "post", ["class" => "form-edicion"]) ?>
             <?= Myform::hidden("finalizar.venta", [], "1") ?>
 
             <div class="form-actions">
