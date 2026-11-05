@@ -1,13 +1,20 @@
 <?php View::content(); ?>
 
-<?php if (isset($clientes)): ?>
+<?php if (isset($usuarios)): ?>
 
-    <!-- 1) Elegir el cliente de la venta -->
+    <!-- 1) Elegir el vendedor y el cliente de la venta -->
     <?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
 
-    <?= Myform::select_label("Cliente", "venta.cliente_id", $clientes) ?>
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <?= Myform::select_label("Vendedor", "venta.usuario_id", $usuarios, [], null, "email") ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?= Myform::select_label("Cliente", "venta.cliente_id", $clientes) ?>
+        </div>
+    </div>
 
-    <div class="form-actions">
+    <div class="form-actions mt-3">
         <?= Myform::btn_aceptar("Crear venta") ?>
     </div>
 
@@ -19,13 +26,14 @@
 
         <!-- La venta abierta ya existe (o fue creada): sus datos -->
         <h3>Venta #<?= $venta->id ?></h3>
-        <p class="mb-1">Cliente: <?= $cliente->nombre ?></p>
-        <p>Fecha: <?= $venta->fecha ?></p>
+        <p class="mb-1">Vendedor: <?= $vendedor ? $vendedor->email : '—' ?></p>
+        <p class="mb-1">Cliente: <?= $cliente ? $cliente->nombre_completo() : 'Público General' ?></p>
+        <p>Fecha: <?= date('d/m/Y H:i', strtotime($venta->fecha)) ?></p>
 
         <!-- 2) Agregar un producto -->
-        <?= Myform::open("", "post", ["class" => "form-edicion"]) ?>
+        <?= Myform::open("", "post", ["class" => "form-edicion mt-4"]) ?>
 
-        <div class="row g-3">
+        <div class="row g-3 align-items-end">
             <div class="col-12 col-md-8">
                 <?= Myform::select_label("Producto", "item.producto_id", $productos) ?>
             </div>
@@ -34,7 +42,7 @@
             </div>
         </div>
 
-        <div class="form-actions">
+        <div class="form-actions mt-3">
             <?= Myform::btn_aceptar("Agregar") ?>
         </div>
 
@@ -58,9 +66,8 @@
                     <td class="text-end"><?= $i->cantidad ?></td>
                     <td class="text-end">$<?= number_format((float) $i->unitario, 2) ?></td>
                     <td class="text-end">$<?= number_format((float) $i->importe, 2) ?></td>
-                    <!-- CODIGO 2.3: quitar el renglon -->
                     <td class="text-end">
-                        <?= Myform::open("ventas/quitar_item/{$cliente->id}/{$i->id}") ?>
+                        <?= Myform::open("ventas/quitar_item/{$venta->id}/{$i->id}") ?>
                         <?= Myform::btn_aceptar("Quitar", ["class" => "btn-sm btn-outline-danger"]) ?>
                         <?= Myform::close() ?>
                     </td>
@@ -68,7 +75,7 @@
             <?php endforeach; ?>
             <?php if (!$items): ?>
                 <tr>
-                    <td colspan="5" class="text-muted">Todavía no hay productos en esta venta.</td>
+                    <td colspan="5" class="text-muted text-center py-3">Todavía no hay productos en esta venta.</td>
                 </tr>
             <?php endif; ?>
             </tbody>
@@ -81,14 +88,14 @@
             </tfoot>
         </table>
 
-        <!-- 3) Finalizar la venta con el pago (CODIGO 3.3) -->
+        <!-- 3) Finalizar la venta con el pago -->
         <?php if ($items): ?>
             <?php $total = number_format((float) $venta->total, 2, '.', ''); ?>
 
-            <?= Myform::open("ventas/cerrar/{$cliente->id}", "post", ["class" => "form-edicion"]) ?>
+            <?= Myform::open("ventas/cerrar/{$venta->id}", "post", ["class" => "form-edicion mt-4"]) ?>
             <?= Myform::hidden("finalizar.venta", [], "1") ?>
 
-            <div class="row g-3">
+            <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-6">
                     <?= Myform::select_label("Método de pago", "finalizar.metodo_id", $metodos, [], null, "metodo") ?>
                 </div>
@@ -97,7 +104,7 @@
                 </div>
             </div>
 
-            <div class="form-actions">
+            <div class="form-actions mt-3">
                 <?= Myform::btn_aceptar("Finalizar venta") ?>
             </div>
             <?= Myform::close() ?>

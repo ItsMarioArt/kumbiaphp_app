@@ -1,0 +1,48 @@
+<?php View::content(); ?>
+
+<div class="mx-auto text-start" style="max-width: 900px;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Ventas Abiertas</h3>
+        <?= Html::linkAction("nuevo", "Nueva Venta", 'class="btn btn-primary"') ?>
+    </div>
+
+    <table class="table table-striped table-sm table-hover mt-4 align-middle">
+        <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Total</th>
+            <th>Fecha</th>
+            <th>Vendedor</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (!empty($ventas_abiertas)): ?>
+            <?php foreach ($ventas_abiertas as $v) : ?>
+                <tr>
+                    <td><?= $v->nombre_completo ?></td>
+                    <td>$<?= number_format((float)$v->total, 2) ?></td>
+                    <td><?= date('d/m/Y H:i', strtotime($v->fecha)) ?></td>
+                    <td><?= $v->vendedor ?></td>
+
+                    <td class="text-end">
+                        <div class="d-flex justify-content-end gap-2">
+                            <!-- Botón para continuar la venta -->
+                            <?= Html::linkAction("nuevo/{$v->venta_id}", 'Continuar', 'class="btn btn-sm btn-info"') ?>
+
+                            <!-- Formulario para descartar (usando el helper estándar Myform) -->
+                            <?= Myform::open("ventas/descartar/{$v->venta_id}", "post") ?>
+                            <input type="submit" name="cerrar" value="Descartar" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de descartar esta venta por completo?');">
+                            <?= Myform::close() ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5" class="text-center text-muted py-4">No hay ventas abiertas en este momento.</td>
+            </tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+</div>

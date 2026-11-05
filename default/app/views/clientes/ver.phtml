@@ -1,11 +1,12 @@
-<h1> <?= $cliente->empresa ?> </h1>
+<h1> <?= $cliente->nombre_completo() ?> </h1>
 <ul>
-    <li>Empresa: <?= $cliente->empresa ?> </li>
+    <li>Nombre: <?= $cliente->nombre ?> </li>
+    <li>Apellidos: <?= $cliente->apellidos ?></li>
+    <li>RFC: <?= $cliente->rfc ?></li>
     <li>Correo electrónico: <?= $cliente->email ?></li>
-    <li>Teléfono: <?= $cliente->telefono ?></li>
-    <li>Ciudad: <?= $cliente->ciudad ?></li>
-    <li>País ID: <?= $cliente->pais_id ?></li>
-    <li>Límite de crédito: <?= number_format($cliente->limite_credito, 2, '.', ',') ?></li>
+    <li>Línea de crédito: $<?= number_format((float)$cliente->linea_credito, 2, '.', ',') ?></li>
+    <li>Por pagar: $<?= number_format((float)$cliente->por_pagar, 2, '.', ',') ?></li>
+    <li>Estatus: <?= $cliente->activo ? 'Activo' : 'Inactivo' ?></li>
 </ul>
 
 <?= Myhtml::btn_acciones("clientes", $cliente->id) ?>

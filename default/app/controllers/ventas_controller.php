@@ -1,72 +1,63 @@
 <?php
-
 class VentasController extends AppController
 {
-    /*
-     * accion: nuevo
-     * vista: ventas/nuevo.phtml
-     * url: /ventas/nuevo              -> elegir cliente
-     *      /ventas/nuevo/:cliente_id  -> venta abierta de ese cliente
-     */
-    public function nuevo($cliente_id = null)
+    public function index()
     {
-        $this->title = "Nueva Venta";
-        $this->cliente_id = $cliente_id;
-
-        // 1) Se eligio el cliente en el formulario: crear/recuperar su venta y ir a ella
-        if (Input::hasPost('venta')) {
-            $cliente = $this->cargar_cliente(Input::post('venta.cliente_id'));
-
-            if ($cliente) {
-                $venta = (new Ventas())->get_abierta($cliente->id);
-                Flash::valid("Venta #{$venta->id} lista para el cliente {$cliente->nombre}");
-                Redirect::to("ventas/nuevo/{$cliente->id}");   // CODIGO 6
-            }
-            return;
-        }
-
-        // 2) Sin cliente: formulario para elegir uno
-        if ($cliente_id === null) {
-            $this->clientes = (new Clientes())->find("order: nombre");
-            return;
-        }
-
-        // 3) Con cliente: su venta abierta
-        $this->cliente = $this->cargar_cliente($cliente_id);
-        if (!$this->cliente) {
-            return;
-        }
-        $this->venta = (new Ventas())->get_abierta($this->cliente->id);
-
-        // Agregar un producto (CODIGO 2)
-        if (Input::hasPost('item')) {
-            $this->venta->agregar_item(Input::post('item'));
-            Redirect::to("ventas/nuevo/{$this->cliente->id}");
-            return;
-        }
-
-        $this->productos = (new Productos())->get_activos();
-        $this->metodos   = (new PagosMetodos())->get_activos();
-        $this->items = $this->venta->getItems();
+        $this->title = "Listado de Ventas";
+        $this->ventas = (new Ventas())->find('order: id DESC');
     }
 
-    /*
-     * CODIGO 2.1: finalizar la venta abierta del cliente (solo por POST).
-     * Sustituye al bloque "finalizar" del CODIGO 7, que ya no va en nuevo().
-     */
-    public function cerrar($cliente_id = null)
+    public function nuevo($venta_id = null)
+    {
+        $this->title = "Nueva Venta";
+
+        if (Input::hasPost('venta')) {
+            $this->iniciar_venta(Input::post('venta'));
+            return;
+        }
+
+        if ($venta_id === null) {
+            $this->usuarios = (new Usuarios())->get_activos();
+            $this->clientes = $this->lista_clientes();
+            return;
+        }
+
+        $this->venta = (new Ventas())->buscar_abierta($venta_id);
+
+        if (!$this->venta) {
+            Flash::error("La venta no existe o ya está cerrada");
+            Redirect::to("ventas/nuevo");
+            return;
+        }
+
+        $this->vendedor = $this->venta->obtener_vendedor();
+        $this->cliente  = $this->venta->obtener_cliente();
+
+        if (Input::hasPost('item')) {
+            $this->venta->agregar_item(Input::post('item'));
+            Redirect::to("ventas/nuevo/{$this->venta->id}");
+            return;
+        }
+
+        $this->productos = (new Productos())->get_activos(); // Asumiendo que existe get_activos() en Productos
+        $this->metodos   = (new PagosMetodos())->get_activos(); // Asumiendo que existe get_activos() en PagosMetodos
+        $this->items     = $this->venta->getItems();
+    }
+
+    public function cerrar($venta_id = null)
     {
         if (Input::hasPost('finalizar')) {
-            $cliente = $this->cargar_cliente($cliente_id);
-            if (!$cliente) {
+            $venta = (new Ventas())->buscar_abierta($venta_id);
+
+            if (!$venta) {
+                Flash::error("La venta no existe o ya está cerrada");
+                Redirect::to("ventas/nuevo");
                 return;
             }
 
-            $venta = (new Ventas())->get_abierta($cliente->id);
-
             if (!$venta->getItems()) {
                 Flash::error("Agrega al menos un producto antes de finalizar la venta");
-                Redirect::to("ventas/nuevo/{$cliente->id}");
+                Redirect::to("ventas/nuevo/{$venta->id}");
                 return;
             }
 
@@ -74,8 +65,7 @@ class VentasController extends AppController
                 Flash::valid("Venta #{$venta->id} finalizada. Por pagar: $" . number_format((float) $venta->por_pagar, 2));
                 Redirect::to("ventas/nuevo");
             } else {
-                // el modelo ya dejo el mensaje de error: se regresa a la misma venta
-                Redirect::to("ventas/nuevo/{$cliente->id}");
+                Redirect::to("ventas/nuevo/{$venta->id}");
             }
             return;
         }
@@ -83,39 +73,87 @@ class VentasController extends AppController
         Redirect::to("ventas/nuevo");
     }
 
-    /*
-     * CODIGO 2.4: quitar un renglon de la venta abierta (solo por POST).
-     */
-    public function quitar_item($cliente_id = null, $item_id = null)
+    public function quitar_item($venta_id = null, $item_id = null)
     {
         if (Input::is('POST')) {
-            $cliente = $this->cargar_cliente($cliente_id);
-            if (!$cliente) {
+            $venta = (new Ventas())->buscar_abierta($venta_id);
+
+            if (!$venta) {
+                Flash::error("La venta no existe o ya está cerrada");
+                Redirect::to("ventas/nuevo");
                 return;
             }
 
-            $venta = (new Ventas())->get_abierta($cliente->id);
             $venta->quitar_item($item_id);
-
-            Redirect::to("ventas/nuevo/{$cliente->id}");
+            Redirect::to("ventas/nuevo/{$venta->id}");
             return;
         }
 
-        Redirect::to("ventas/nuevo/" . (int) $cliente_id);
+        Redirect::to("ventas/nuevo");
     }
 
-    /*
-     * Busca el cliente; si no existe avisa y regresa al formulario de seleccion.
-     */
-    protected function cargar_cliente($cliente_id)
+    public function abiertas()
     {
-        $cliente = (new Clientes())->find_first((int) $cliente_id);
+        $this->title = "Ventas Abiertas";
+        $this->ventas_abiertas = (new Ventas())->get_abiertas();
+    }
 
-        if (!$cliente) {
-            Flash::error("El cliente no existe");
-            Redirect::to("ventas/nuevo");
+    public function descartar($venta_id)
+    {
+        if (Input::is('POST')) {
+            $venta = (new Ventas())->find_first((int) $venta_id);
+
+            if ($venta) {
+                $venta->descartar();
+                Flash::valid("La venta ha sido descartada exitosamente.");
+            } else {
+                Flash::error("No se pudo encontrar la venta a descartar.");
+            }
         }
 
-        return $cliente;
+        return Redirect::to("ventas/abiertas");
+    }
+
+    protected function iniciar_venta($datos)
+    {
+        $vendedor = (new Usuarios())->find_first((int) ($datos['usuario_id'] ?? 0));
+
+        if (!$vendedor || !$vendedor->activo) {
+            Flash::error("Elige un vendedor válido");
+            Redirect::to("ventas/nuevo");
+            return;
+        }
+
+        $cliente    = null;
+        $cliente_id = (int) ($datos['cliente_id'] ?? 0);
+
+        if ($cliente_id) {
+            $cliente = (new Clientes())->find_first($cliente_id);
+
+            if (!$cliente || !$cliente->activo) {
+                Flash::error("El cliente no existe o está inactivo");
+                Redirect::to("ventas/nuevo");
+                return;
+            }
+        }
+
+        $venta = (new Ventas())->get_abierta($vendedor->id, $cliente_id);
+        $nombre = $cliente ? $cliente->nombre_completo() : "Público General";
+
+        Flash::valid("Venta #{$venta->id} lista ({$nombre}), vendedor {$vendedor->email}");
+        Redirect::to("ventas/nuevo/{$venta->id}");
+    }
+
+    protected function lista_clientes()
+    {
+        $lista = [(object) ['id' => '', 'nombre' => 'Público General']];
+
+        $clientes = (new Clientes())->find("conditions: activo = 1", "order: nombre, apellidos") ?: [];
+
+        foreach ($clientes as $c) {
+            $lista[] = (object) ['id' => $c->id, 'nombre' => $c->nombre_completo()];
+        }
+
+        return $lista;
     }
 }

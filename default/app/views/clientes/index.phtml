@@ -2,32 +2,30 @@
 
 <table class="table" id="table_clientes" style="display: none">
     <thead>
-    <tr><!-- table  row -->
+    <tr>
         <th></th>
-        <th>Nombre</th> <!-- table  head -->
-        <th>Empresa</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>RFC</th>
         <th>Correo electrónico</th>
-        <th>Teléfono</th>
-        <th>Ciudad</th>
-        <th>País</th>
-        <th>Límite de crédito</th>
+        <th>Línea de crédito</th>
+        <th>Por pagar</th>
+        <th>Estatus</th>
     </tr>
     </thead>
     <tbody>
     <?php foreach ($clientes as $c): ?>
         <tr>
-            <td> <a href="http://localhost/kumbiaphp/clientes/ver/<?= $c->id ?>">Ver</a> </td>
-            <td> <?= $c->nombre ?> </td> <!-- table data -->
-            <td> <?= $c->empresa ?> </td>
+            <td> <?= Html::link("clientes/ver/{$c->id}", "Ver") ?> </td>
+            <td> <?= $c->nombre ?> </td>
+            <td> <?= $c->apellidos ?> </td>
+            <td> <?= $c->rfc ?></td>
             <td> <?= $c->email ?></td>
-            <td> <?= $c->telefono ?></td>
-            <td> <?= $c->ciudad ?></td>
-            <td> <?= $c->pais_id ?></td>
-            <td><?= number_format($c->limite_credito, 2, '.', ',') ?></td>
-
+            <td>$<?= number_format((float)$c->linea_credito, 2, '.', ',') ?></td>
+            <td>$<?= number_format((float)$c->por_pagar, 2, '.', ',') ?></td>
+            <td><?= $c->activo ? 'Activo' : 'Inactivo' ?></td>
         </tr>
     <?php endforeach; ?>
-
     </tbody>
 </table>
 

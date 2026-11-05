@@ -15,7 +15,7 @@ class VentasItems extends ActiveRecord
     }
 
     /*
-     * CODIGO 4: antes de guardar (insert o update) se calcula el importe.
+     * Antes de guardar (insert o update) se calcula el importe.
      */
     public function before_save()
     {
